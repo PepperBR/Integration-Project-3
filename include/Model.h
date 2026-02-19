@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-class Modelo
+class Model
 {
 public:
     virtual std::string getName() = 0;
