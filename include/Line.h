@@ -4,14 +4,16 @@
 #include <unordered_map>
 #include <memory>
 
+struct meter_model{
+    std::string type;
+    std::unique_ptr<Meter> meter;
+
+};
+
 class Line
 {
     private:
-        std::list<std::unique_ptr<Meter>> list;
-        std::unordered_map<std::string,std::list<std::unique_ptr<Meter>>> list_indexed_meters;
-
+        std::list<meter_model> list;
     public:
-        std::list<std::unique_ptr<Meter>> & getList();
-        std::unordered_map<std::string,std::list<std::unique_ptr<Meter>>> & getListIndexedMeters();
-
+        std::list<meter_model> & getList();
 };
