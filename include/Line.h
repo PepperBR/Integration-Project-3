@@ -8,6 +8,11 @@ struct meter_model{
     std::string type;
     std::unique_ptr<Meter> meter;
 
+    bool operator < (const meter_model& other_model) const {
+        return type < other_model.type;
+    }
+
+    
 };
 
 class Line

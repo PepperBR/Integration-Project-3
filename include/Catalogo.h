@@ -1,12 +1,26 @@
 #pragma once
 #include "Line.h"
 
-class Catalogo
+enum class Type
+{
+    ARES,
+    ZEUS,
+    APOLO,
+    CRONOS,
+};
+
+
+class Catalogo          
 {
     private:
         Line lines_avaible;
+        auto factoryMeter (std::string & type) -> std::unique_ptr<Meter>;
+
     public:
-        Catalogo(/* args */);
-        void addNewModel (std::string & meter_type, std::unique_ptr<Meter> new_meter); // Sei como fazer
-        void removeModel (const int ID); // Falta descobrir
+        void addNewModel (std::string & type); 
+        void removeModel (const int ID);                                                
+        void sortList();                                                                
+        Line & getLinesAvaible();       
+        Type convertStringEnum (std::string & type);                 
+
 };
