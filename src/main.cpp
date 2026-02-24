@@ -1,15 +1,10 @@
-#include "GlobalID.h" 
-#include "MeterAres.h" 
-#include "MeterZeus.h"
-#include "MeterCronos.h" 
-#include "MeterApolo.h" 
-#include "Line.h"
-#include "Catalogo.h"
 #include "Ui.h"
-
+#include <windows.h>
 
 int main()
 {   
+    SetConsoleOutputCP(CP_UTF8);
+
     Ui ui;
     ui.run();
 

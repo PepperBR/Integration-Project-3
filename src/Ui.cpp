@@ -7,7 +7,11 @@ Ui::Ui()
     : catalogo()
 {    
 }
-
+/*
+    Falta:
+    -7. Adicionar um novo modelo a uma linha específica
+    -8. Remover o modelo informando o seu id
+*/
 void Ui::run ()
 {
     bool executando = true;
@@ -31,13 +35,13 @@ void Ui::run ()
                 std::cout << "\n==============================\n";
                 for (auto & nome_modelo : catalogo.getListModels().getList())
                 {
-                    if(nome_modelo.meter->getNameMeter() == nome)
+                    if(nome_modelo.type == nome)
                     {
                         std::cout << nome_modelo.meter->getNameMeter() << "\n";
                         exists = true;
                     }
                 }
-                if(exists){
+                if(!exists){
                     std::cout << "Não existem modelos nessa linha" << "\n";
                 }
                 break;
@@ -85,9 +89,6 @@ void Ui::run ()
                     std::cin.clear();
                     std::cin.ignore(10000, '\n');
                 }
-
-                
-            
                 break;
             }
         }
