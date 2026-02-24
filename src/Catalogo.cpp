@@ -13,8 +13,8 @@ void Catalogo::addNewModel (std::string & type)
 
 void Catalogo::removeModel (const int ID)
 {
-    lines_avaible.getList().remove_if([](const meter_model & model) {
-        return model.meter->getIDMeter() == 7;
+    lines_avaible.getList().remove_if([ID](const meter_model & model) {
+        return model.meter->getIDMeter() == ID;
     });
 }; 
 

@@ -21,6 +21,5 @@ class Catalogo
         void removeModel (const int ID);                                                
         void sortList();                                                                
         Line & getLinesAvaible();       
-        Type convertStringEnum (std::string & type);                 
-
+        Type convertStringEnum (std::string & type);  
 };

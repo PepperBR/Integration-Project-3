@@ -20,6 +20,12 @@ int main()
     catalogo.addNewModel(zeus);
     catalogo.addNewModel(ares);
 
+    catalogo.removeModel(1);
+    catalogo.removeModel(2);
+    catalogo.removeModel(3);
+    catalogo.removeModel(4);
+    catalogo.removeModel(5);
+
     for (auto & models : catalogo.getLinesAvaible().getList())
     {
         std::cout << models.type << std::endl;
