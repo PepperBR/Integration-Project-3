@@ -11,6 +11,11 @@ Ui::Ui()
     Falta:
     -7. Adicionar um novo modelo a uma linha específica
     -8. Remover o modelo informando o seu id
+    - Adicionar aos medidores leitura de Tensão e Corrente, caso aquele medidor seja monofásico,
+      não pode ter o mesmo comportamento que o o bifásico e o trifásico;
+      mono -
+      bi -
+      tri -
 */
 void Ui::run ()
 {
