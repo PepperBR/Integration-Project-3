@@ -1,7 +1,8 @@
 #include "MeterAres.h"
 
-MeterAres::MeterAres()
-    : ID(GlobalID::generateID())
+MeterAres::MeterAres(std::string &_name)
+    : ID(GlobalID::generateID()),
+      name(_name)
 {
     std::cout << "ID = " << ID << std::endl;
 };

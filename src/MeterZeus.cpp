@@ -1,7 +1,8 @@
 #include "MeterZeus.h"
 
-MeterZeus::MeterZeus()
-    : ID(GlobalID::generateID())
+MeterZeus::MeterZeus(std::string &_name)
+    : ID(GlobalID::generateID()),
+      name(_name)
 {
     std::cout << "ID = " << ID << std::endl;
 };

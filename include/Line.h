@@ -11,8 +11,6 @@ struct meter_model{
     bool operator < (const meter_model& other_model) const {
         return type < other_model.type;
     }
-
-    
 };
 
 class Line

@@ -8,7 +8,7 @@ class MeterApolo : public Meter
         std::string getNameMeter() override;
         int getIDMeter() override;
         ~MeterApolo() override;
-        MeterApolo();
+        MeterApolo(std::string &_name);
         
     private:
         const int ID;

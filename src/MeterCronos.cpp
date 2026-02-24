@@ -1,7 +1,8 @@
 #include "MeterCronos.h"
 
-MeterCronos::MeterCronos()
-    : ID(GlobalID::generateID())
+MeterCronos::MeterCronos(std::string & _name)
+    : ID(GlobalID::generateID()),
+      name(_name)
 {
     std::cout << "ID = " << ID << std::endl;
 };

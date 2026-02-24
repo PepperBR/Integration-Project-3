@@ -1,7 +1,8 @@
 #include "MeterApolo.h"
 
-MeterApolo::MeterApolo()
-    : ID(GlobalID::generateID())
+MeterApolo::MeterApolo(std::string &_name)
+    : ID(GlobalID::generateID()),
+      name(_name)
 {
     std::cout << "ID = " << ID << std::endl;
 };

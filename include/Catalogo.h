@@ -13,13 +13,16 @@ enum class Type
 class Catalogo          
 {
     private:
-        Line lines_avaible;
-        auto factoryMeter (std::string & type) -> std::unique_ptr<Meter>;
+        Line list_models;
+        std::list<std::string> lines {"Ares","Zeus","Cronos","Apolo"};
+        auto factoryMeter (std::string & type, std::string & name) -> std::unique_ptr<Meter>;
 
     public:
-        void addNewModel (std::string & type); 
+        void addNewModel (std::string & type, std::string & name); 
         void removeModel (const int ID);                                                
         void sortList();                                                                
-        Line & getLinesAvaible();       
+        Line & getListModels();       
         Type convertStringEnum (std::string & type);  
+        std::list<std::string> & getLines ();
+        Catalogo();
 };

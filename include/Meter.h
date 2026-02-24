@@ -2,11 +2,13 @@
 #include <string>
 #include <iostream>
 
-class Meter{
+class Meter
+{
     public:
         virtual std::string getNameMeter() = 0;
         virtual int getIDMeter() = 0;
-        virtual ~Meter(){
+        virtual ~Meter()
+        {
             std::cout << "Virtual Meter Destructor is begin called" << std::endl;
         };
 };

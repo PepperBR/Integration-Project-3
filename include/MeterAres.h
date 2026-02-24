@@ -8,7 +8,7 @@ class MeterAres : public Meter
         std::string getNameMeter() override;
         int getIDMeter() override;
         ~MeterAres() override;
-        MeterAres();
+        MeterAres(std::string &_name);
         
     private:
         const int ID;

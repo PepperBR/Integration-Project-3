@@ -8,7 +8,7 @@ class MeterCronos : public Meter
         std::string getNameMeter() override;
         int getIDMeter() override;
         ~MeterCronos() override;
-        MeterCronos();
+        MeterCronos(std::string &_name);
         
     private:
         const int ID;
