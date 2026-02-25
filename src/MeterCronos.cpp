@@ -1,8 +1,9 @@
 #include "MeterCronos.h"
 
-MeterCronos::MeterCronos(std::string & _name)
+MeterCronos::MeterCronos(std::string & _name, std::unique_ptr<Classification> _mode)
     : ID(GlobalID::generateID()),
-      name(_name)
+      name(_name),
+      mode(std::move(_mode))
 {
     std::cout << "ID = " << ID << std::endl;
 };
@@ -21,3 +22,7 @@ std::string MeterCronos::getNameMeter()
     return name;
 };
 
+const std::unique_ptr<Classification> & MeterCronos::getMode()
+{
+    return mode;
+}

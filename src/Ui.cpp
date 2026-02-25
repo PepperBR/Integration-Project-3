@@ -2,6 +2,10 @@
 #include <string>
 #include <iostream>
 #include <functional>
+#include "SinglePhase.h"
+#include "SinglePhase.h"
+#include "TwoPhase.h"
+#include "ThreePhase.h"
 
 Ui::Ui()
     : catalogo()
@@ -14,6 +18,9 @@ Ui::Ui()
       mono - Fase A
       bi - Fase A,B
       tri - Fase A,B,C
+
+
+      Mudar no adicionar e Criar um Menu para exibir essas opções de leitura da fase
 */
 void Ui::run ()
 {
@@ -113,7 +120,11 @@ void Ui::run ()
 
                 std::getline(std::cin, name);
 
-                catalogo.addNewModel(type,name);
+                int op;
+                std::cout << "\n\nDigite o modo de operação \n(1) Monofásico;\n(2) Bifásico;\n(3) Trifásico; ";
+                std::cin >> op;
+
+                catalogo.addNewModel(type,name,op);
                 break;
             }
             
@@ -123,7 +134,7 @@ void Ui::run ()
                 std::cout << "\nNome do modelo   |  ID\n";
                 for(auto & models : catalogo.getListModels().getList())
                 {
-                    std::cout << models.meter->getNameMeter() << "           " << models.meter->getIDMeter() << std::endl;
+                    std::cout << models.meter->getNameMeter() << "    " << models.meter->getIDMeter() << std::endl;
                 }
                 //Rceber ID do modelo que deseja remover
                 int id;
@@ -142,6 +153,51 @@ void Ui::run ()
             }
 
             case 6:
+            {
+                std::cout << "\nNome do modelo   |  ID\n";
+                for(auto & models : catalogo.getListModels().getList())
+                {
+                    std::cout << models.meter->getNameMeter() << "    " << models.meter->getIDMeter() << std::endl;
+                }
+
+                int id;
+                std::cout << "Escolha qual Medidor deseja ver as leituras pelo seu ID: " << std::endl;
+                std::cin >> id;
+                
+                if (std::cin.fail())
+                {
+                    std::cout << "Digite uma opção válida.\n";
+                    std::cin.clear();
+                    std::cin.ignore(10000, '\n');
+                    break;
+                }
+                
+                int phase;
+                std::cout << "Escolha qual Fase deseja realizar uma leitura: " << std::endl;
+                std::cin >> phase;
+
+                int measurement;
+                if(phase == 1)
+                {
+                    measurement = catalogo.getMeasurementPhaseA(id);
+                }else if(phase == 2)
+                {
+                    measurement = catalogo.getMeasurementPhaseB(id);
+                }else{
+                    measurement = catalogo.getMeasurementPhaseC(id);
+                }
+                if(measurement != -1)
+                {
+                    std::cout <<"A medição da Fase escolhida é : " << measurement << std::endl;
+                }else
+                {
+                    std::cout <<"Não foi possível realizar uma medição" << std::endl;
+                }
+                
+                break;
+            }
+
+            case 7:
             {
                 executando = false;
                 break;
@@ -174,7 +230,8 @@ void Ui::exibir_menu_inicial()
               <<"\n(3) Exibir todos modelos de Medidores de Energia;"
               <<"\n(4) Exibir Menu de Adição de um novo modelo;"
               <<"\n(5) Exibir Menu de Remoção de modelo;"
-              <<"\n(6) Sair da Aplicação.\n";
+              <<"\n(6) Exibir Leituras de Fase de um modelo;"
+              <<"\n(7) Sair da Aplicação.\n";
 }
 
 

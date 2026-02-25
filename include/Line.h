@@ -3,6 +3,7 @@
 #include <list>
 #include <unordered_map>
 #include <memory>
+#include "Classification.h"
 
 struct meter_model{
     std::string type;
