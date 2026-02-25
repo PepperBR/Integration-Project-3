@@ -86,4 +86,6 @@ Type Catalogo::convertStringEnum (std::string & type)
 {
     if(type == "Ares") {return Type::ARES;}
     if(type == "Zeus") {return Type::ZEUS;}
+    if(type == "Apolo") {return Type::APOLO;}
+    if(type == "Cronos") {return Type::CRONOS;}
 };

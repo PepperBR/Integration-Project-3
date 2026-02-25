@@ -9,7 +9,7 @@ MeterApolo::MeterApolo(std::string &_name)
 
 MeterApolo::~MeterApolo()
 {
-    std::cout << "Meter Zeus Destructor " << ID << " begin called" << std::endl;
+    std::cout << "Meter Apolo Destructor " << ID << " begin called" << std::endl;
 }
 int MeterApolo::getIDMeter()
 {
