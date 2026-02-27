@@ -1,11 +1,14 @@
 #pragma once
+
 #include <string>
 #include <iostream>
 #include <vector>
-#include "core/GlobalID.h"
+#include "core/GlobalID.h" // TODO: Remover, nao utilizado
+
 //Interface
 class Meter
 {
+    // TODO: Mover ID para cá, talvez name tbm
     public:
         virtual std::vector<double> & getPhaseValues() = 0;
         virtual std::string & getName() = 0;

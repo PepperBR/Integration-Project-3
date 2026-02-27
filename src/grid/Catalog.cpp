@@ -21,7 +21,7 @@ Catalog::Catalog()
 {
 };
 
-void Catalog::addNewModel (std::string & name)
+void Catalog::addNewModel (const std::string & name)
 {   
     auto model = factoryMeter(name);
     list_models.getList().push_back(std::move(model));
@@ -63,9 +63,12 @@ Line & Catalog::getAllModels()
     return list_models;
 };
 
-auto Catalog::factoryMeter (std::string & name) -> std::unique_ptr<Meter>
+auto Catalog::factoryMeter (const std::string & name) -> std::unique_ptr<Meter>
 {
     auto meter = convertStringEnum(name);
+    
+    // TODO: Priorizar uso de make_fun
+
     switch (meter)
     {
     case Modelo::Apolo6031 :
@@ -107,23 +110,24 @@ auto Catalog::factoryMeter (std::string & name) -> std::unique_ptr<Meter>
     }
 };
 
-std::list<std::string> & Catalog::getLines ()
+const LineList & Catalog::getLines() const
 {
     return lines;
-};
-
+}
 
 std::list<Meter*> Catalog::getLineModels(const std::string & type) {
     std::list<Meter*> filtered; 
+
     for (auto & model : list_models.getList()) {
         if (model->getName().find(type) != std::string::npos) {
             filtered.push_back(model.get()); 
         }
     }
+    
     return filtered; 
 };
 
-Modelo Catalog::convertStringEnum (std::string & type)
+Modelo Catalog::convertStringEnum (const std::string & type)
 {
     if(type == "Apolo 6031") {return Modelo::Apolo6031;}
     if(type == "Ares 7021") {return Modelo::Ares7021;}
