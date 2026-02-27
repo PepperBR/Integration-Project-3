@@ -1,4 +1,4 @@
-#include "SinglePhaseMeter.h"
+#include "meters/Phase/SinglePhaseMeter.h"
 
 std::vector<double> & SinglePhaseMeter::getPhaseValues()
 {

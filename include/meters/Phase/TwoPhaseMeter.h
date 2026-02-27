@@ -4,8 +4,10 @@
 
 class TwoPhaseMeter
 {
+    private:
+        std::vector<double> phaseValues;
     public:
-        ~TwoPhaseMeter();
-        std::vector<double> & getPhaseValues();
+        virtual ~TwoPhaseMeter() = default;
+        virtual std::vector<double> & getPhaseValues();
 };
 

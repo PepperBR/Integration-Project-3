@@ -1,5 +1,21 @@
 #include "grid/Catalog.h"
 #include "meters/Apolo/Apolo6031.h"
+#include "meters/Ares/Ares7021.h"
+#include "meters/Ares/Ares7023.h"
+#include "meters/Ares/Ares7031.h"
+#include "meters/Ares/Ares8023.h"
+#include "meters/Ares/Ares8023_15.h"
+#include "meters/Ares/Ares8023_200.h"
+#include "meters/Cronos/Cronos6001_A.h"
+#include "meters/Cronos/Cronos6003.h"
+#include "meters/Cronos/Cronos6021_A.h"
+#include "meters/Cronos/Cronos6021_L.h"
+#include "meters/Cronos/Cronos7023_2_5.h"
+#include "meters/Cronos/Cronos7023_L.h"
+#include "meters/Cronos/Cronos7023.h"
+#include "meters/Zeus/Zeus8021.h"
+#include "meters/Zeus/Zeus8023.h"
+#include "meters/Zeus/Zeus8031.h"
 
 Catalog::Catalog()
 {
@@ -49,11 +65,43 @@ Line & Catalog::getAllModels()
 
 auto Catalog::factoryMeter (std::string & name) -> std::unique_ptr<Meter>
 {
-    auto op = 1;
-    switch (op)
+    auto meter = convertStringEnum(name);
+    switch (meter)
     {
-    case 1 :
+    case Modelo::Apolo6031 :
         return std::unique_ptr<Meter>{new Apolo6031};
+    case Modelo::Ares7021 :
+        return std::unique_ptr<Meter>{new Ares7021};
+    case Modelo::Ares7031 :
+        return std::unique_ptr<Meter>{new Ares7031};
+    case Modelo::Ares7023 :
+        return std::unique_ptr<Meter>{new Ares7023};
+    case Modelo::Ares8023_15 :
+        return std::unique_ptr<Meter>{new Ares8023_15};
+    case Modelo::Ares8023_200 :
+        return std::unique_ptr<Meter>{new Ares8023_200};
+    case Modelo::Ares8023 :
+        return std::unique_ptr<Meter>{new Ares8023};
+    case Modelo::Cronos6001_A :
+        return std::unique_ptr<Meter>{new Cronos6001_A};
+    case Modelo::Cronos6003 :
+        return std::unique_ptr<Meter>{new Cronos6003};
+    case Modelo::Cronos6021_A :
+        return std::unique_ptr<Meter>{new Cronos6021_A};
+    case Modelo::Cronos6021_L :
+        return std::unique_ptr<Meter>{new Cronos6021_L};
+    case Modelo::Cronos7023_2_5 :
+        return std::unique_ptr<Meter>{new Cronos7023_2_5};
+    case Modelo::Cronos7023_L :
+        return std::unique_ptr<Meter>{new Cronos7023_L};
+    case Modelo::Cronos7023 :
+        return std::unique_ptr<Meter>{new Cronos7023};
+    case Modelo::Zeus8021 :
+        return std::unique_ptr<Meter>{new Zeus8021};
+    case Modelo::Zeus8023 :
+        return std::unique_ptr<Meter>{new Zeus8023};
+    case Modelo::Zeus8031 :
+        return std::unique_ptr<Meter>{new Zeus8031};    
     default:
         break;
     }

@@ -1,4 +1,4 @@
-#include "TwoPhaseMeter.h"
+#include "meters/Phase/TwoPhaseMeter.h"
 
 std::vector<double> & TwoPhaseMeter::getPhaseValues()
 {
@@ -6,5 +6,10 @@ std::vector<double> & TwoPhaseMeter::getPhaseValues()
     std::mt19937 gen(rd()); 
     std::uniform_real_distribution<> dist(1, 220);
 
-    return {dist(gen),dist(gen)};
+    phaseValues.clear();
+    
+    phaseValues.push_back(dist(gen));
+    phaseValues.push_back(dist(gen));
+
+    return phaseValues;
 };
