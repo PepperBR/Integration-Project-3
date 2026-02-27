@@ -3,10 +3,6 @@
 #include <iostream>
 #include <vector>
 #include "core/GlobalID.h"
-
-
-
-
 //Interface
 class Meter
 {
