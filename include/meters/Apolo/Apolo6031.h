@@ -1,6 +1,6 @@
 #pragma once
-#include "Apolo/Apolo.h"
-#include "ThreePhaseMeter.h"
+#include "meters/Apolo/Apolo.h"
+#include "meters/Phase/ThreePhaseMeter.h"
 //Concret class
 class Apolo6031 : public Apolo, ThreePhaseMeter
 {        

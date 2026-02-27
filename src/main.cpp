@@ -1,16 +1,28 @@
-#include "Apolo/Apolo6031.h"
+#include "grid/Catalog.h"
 #include <iostream>
 #include <memory>
-#include "Meter.h"
+
 
 int main()
 {
-    std::unique_ptr<Meter>n {new Apolo6031};
+    Catalog c;
+    std::string name = "Oi";
+    c.addNewModel(name);
+    c.addNewModel(name);
+    c.addNewModel(name);
+    c.addNewModel(name);
 
-    for (auto & cont : n->getPhaseValues())
+
+    for (auto & cont : c.getAllModels().getList())
     {
-        std::cout << cont << std::endl;
+       std::cout << cont->getID() << std::endl;
     }
 
+    c.removeModel(3);
+
+    for (auto & cont : c.getAllModels().getList())
+    {
+       std::cout << cont->getID() << std::endl;
+    }
     return 0;
 }

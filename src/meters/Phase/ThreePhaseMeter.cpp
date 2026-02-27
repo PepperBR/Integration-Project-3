@@ -1,4 +1,4 @@
-#include "ThreePhaseMeter.h"
+#include "meters/Phase/ThreePhaseMeter.h"
 
 std::vector<double> & ThreePhaseMeter::getPhaseValues()
 {
