@@ -64,7 +64,7 @@ void Ui::exibirLinhasDisponiveis() {
 void Ui::listarModelosComId() {
     std::cout << "\nNome do modelo   |   ID\n";
     std::cout << "--------------------------\n";
-    for (auto & meter : catalog.getAllModels().getList())
+    for (auto & meter : catalog.getAllModels())
     {
         std::cout << meter->getName() << "    " << meter->getID() << "\n";
     }

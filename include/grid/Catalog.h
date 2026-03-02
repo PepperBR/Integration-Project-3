@@ -1,6 +1,9 @@
 #pragma once
 
-#include "grid/Line.h"
+#include <list>
+#include <memory>
+#include <string>
+#include <meters/Meter.h>
 
 enum class Modelo
 {
@@ -24,15 +27,16 @@ enum class Modelo
 };
 
 using LineList = std::list<std::string>;
-using MeterList = std::list<Meter*>;
+using Line = std::list<std::unique_ptr<Meter>>;
+using Meters = std::vector<Meter*>;
 
 class Catalog          
 {
 private:
-    Line list_models; // TODO: Utilizar diretamente a list de medidores aqui
+    Line meters;
     LineList lines {"Ares","Zeus","Cronos","Apolo"}; // TODO: transformar em enum
 
-    auto factoryMeter (const std::string & name) -> std::unique_ptr<Meter>;
+    std::unique_ptr<Meter> factoryMeter(const std::string& name);
     
 public:
     void addNewModel (const std::string & name); // adicionar
@@ -42,7 +46,7 @@ public:
     void sortList(); // auxiliar na hora de deixar a lista dos modelos ordenada                                  
     Line & getAllModels(); // pegar todos os modelos organizado
     const LineList & getLines () const; // pegar todas as linhas
-    MeterList getLineModels(const std::string & type);// pegar todos os modelos de uma linha especíca organizado
+    Meters getLineModels(const std::string & type);// pegar todos os modelos de uma linha especíca organizado
     Modelo convertStringEnum (const std::string & type); // converter
     Catalog();
 };

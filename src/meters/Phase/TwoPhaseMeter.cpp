@@ -6,6 +6,7 @@ std::vector<double> & TwoPhaseMeter::getPhaseValues()
     std::mt19937 gen(rd()); 
     std::uniform_real_distribution<> dist(1, 220);
 
+    
     phaseValues.clear();
     
     phaseValues.push_back(dist(gen));

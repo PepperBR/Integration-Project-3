@@ -1,8 +1,7 @@
 #include "meters/Cronos/Cronos.h"
 
 Cronos::Cronos(std::string _name)
-    : ID(GlobalID::generateID()),
-      name(_name)
+    : Meter(GlobalID::generateID(), _name)
 {
 };
 

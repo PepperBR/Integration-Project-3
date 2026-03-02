@@ -24,19 +24,19 @@ Catalog::Catalog()
 void Catalog::addNewModel (const std::string & name)
 {   
     auto model = factoryMeter(name);
-    list_models.getList().push_back(std::move(model));
+    meters.push_back(std::move(model));
 };
 
 void Catalog::removeModel (const int ID)
 {
-    list_models.getList().remove_if([ID](std::unique_ptr<Meter> & meter) {
+    meters.remove_if([ID](std::unique_ptr<Meter> & meter) {
         return  meter->getID() == ID;
     });
 }; 
 
 std::vector<double> & Catalog::getMeasurementsPhases(const int ID)
 {
-    for (auto & cont  : list_models.getList())
+    for (auto & cont  : meters)
     {
         if(cont->getID() == ID)
         {
@@ -49,7 +49,7 @@ std::vector<double> & Catalog::getMeasurementsPhases(const int ID)
 
 void Catalog::sortList()
 {
-    list_models.getList().sort(
+    meters.sort(
         [](const std::unique_ptr<Meter>& meter_a,
             const std::unique_ptr<Meter>& meter_b)
         {
@@ -60,7 +60,7 @@ void Catalog::sortList()
 Line & Catalog::getAllModels()
 {
     sortList();
-    return list_models;
+    return meters;
 };
 
 auto Catalog::factoryMeter (const std::string & name) -> std::unique_ptr<Meter>
@@ -72,39 +72,39 @@ auto Catalog::factoryMeter (const std::string & name) -> std::unique_ptr<Meter>
     switch (meter)
     {
     case Modelo::Apolo6031 :
-        return std::unique_ptr<Meter>{new Apolo6031};
+        return std::make_unique<Apolo6031>();
     case Modelo::Ares7021 :
-        return std::unique_ptr<Meter>{new Ares7021};
+        return std::make_unique<Ares7021>();
     case Modelo::Ares7031 :
-        return std::unique_ptr<Meter>{new Ares7031};
+        return std::make_unique<Ares7031>();
     case Modelo::Ares7023 :
-        return std::unique_ptr<Meter>{new Ares7023};
+        return std::make_unique<Ares7023>();
     case Modelo::Ares8023_15 :
-        return std::unique_ptr<Meter>{new Ares8023_15};
+        return std::make_unique<Ares8023_15>();
     case Modelo::Ares8023_200 :
-        return std::unique_ptr<Meter>{new Ares8023_200};
+        return std::make_unique<Ares8023_200>();
     case Modelo::Ares8023 :
-        return std::unique_ptr<Meter>{new Ares8023};
+        return std::make_unique<Ares8023>();
     case Modelo::Cronos6001_A :
-        return std::unique_ptr<Meter>{new Cronos6001_A};
+        return std::make_unique<Cronos6001_A>();
     case Modelo::Cronos6003 :
-        return std::unique_ptr<Meter>{new Cronos6003};
+        return std::make_unique<Cronos6003>();
     case Modelo::Cronos6021_A :
-        return std::unique_ptr<Meter>{new Cronos6021_A};
+        return std::make_unique<Cronos6021_A>();
     case Modelo::Cronos6021_L :
-        return std::unique_ptr<Meter>{new Cronos6021_L};
+        return std::make_unique<Cronos6021_L>();
     case Modelo::Cronos7023_2_5 :
-        return std::unique_ptr<Meter>{new Cronos7023_2_5};
+        return std::make_unique<Cronos7023_2_5>();
     case Modelo::Cronos7023_L :
-        return std::unique_ptr<Meter>{new Cronos7023_L};
+        return std::make_unique<Cronos7023_L>();
     case Modelo::Cronos7023 :
-        return std::unique_ptr<Meter>{new Cronos7023};
+        return std::make_unique<Cronos7023>();
     case Modelo::Zeus8021 :
-        return std::unique_ptr<Meter>{new Zeus8021};
+        return std::make_unique<Zeus8021>();
     case Modelo::Zeus8023 :
-        return std::unique_ptr<Meter>{new Zeus8023};
+        return std::make_unique<Zeus8023>();
     case Modelo::Zeus8031 :
-        return std::unique_ptr<Meter>{new Zeus8031};    
+        return std::make_unique<Zeus8031>();    
     default:
         break;
     }
@@ -115,10 +115,10 @@ const LineList & Catalog::getLines() const
     return lines;
 }
 
-std::list<Meter*> Catalog::getLineModels(const std::string & type) {
-    std::list<Meter*> filtered; 
+Meters Catalog::getLineModels(const std::string & type) {
+    Meters filtered; 
 
-    for (auto & model : list_models.getList()) {
+    for (auto & model : meters) {
         if (model->getName().find(type) != std::string::npos) {
             filtered.push_back(model.get()); 
         }
