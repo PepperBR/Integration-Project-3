@@ -5,13 +5,13 @@
 
 void Ui::limparInput() {
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore();
 }
 
 void Ui::run() {
     int op;
     while (true) {
-        exibir_menu_inicial();
+        exibirMenuInicial();
         if (!(std::cin >> op)) 
         {
             std::cout << "Opção inválida!\n";
@@ -45,13 +45,15 @@ void Ui::run() {
                 menuLeituraFases();        
                 break;
             default: 
-                std::cout << "Opção inexistente.\n"; 
+                std::cout << "Opção inexistente.\n";
+                std::cout << "Aperte Enter para continuar.\n";
+                std::cin.ignore();
+                
                 break;
         }
     }
 }
 
-// --- Métodos de Apoio (Visualização) ---
 
 void Ui::exibirLinhasDisponiveis() {
     std::cout << "\n=== Linhas Existentes ===\n";
@@ -62,18 +64,16 @@ void Ui::exibirLinhasDisponiveis() {
 }
 
 void Ui::listarModelosComId() {
-    std::cout << "\nNome do modelo   |   ID\n";
+    std::cout << "\nID   |   Nome do modelo\n";
     std::cout << "--------------------------\n";
     for (auto & meter : catalog.getAllModels())
     {
-        std::cout << meter->getName() << "    " << meter->getID() << "\n";
+        std::cout << meter->getID() << "          " << meter->getName() << "\n";
     }
 }
 
-// --- Sub-Menus (Lógica de Negócio) ---
-
 void Ui::listarModelosPorLinha() {
-    exibir_menu_linhas();
+    exibirMenuLinhas();
     std::string nomeLinha;
     std::cin >> nomeLinha;
 
@@ -87,6 +87,10 @@ void Ui::listarModelosPorLinha() {
             std::cout << modelo->getName() << std::endl;
         }
     }
+
+    limparInput();
+    std::cout << "Aperte Enter para continuar.\n";
+    std::cin.ignore();
 }
 
 void Ui::listarTodosModelos() {
@@ -96,12 +100,17 @@ void Ui::listarTodosModelos() {
         auto modelos_linha = catalog.getLineModels(linha);
         for(auto & modelo : modelos_linha)
         {
-            std::cout << modelo->getName() << "    " << modelo->getID() << "\n";
+            std::cout << modelo->getName() << "         " << modelo->getID() << "\n";
         }
     }
+
+    limparInput();
+    std::cout << "Aperte Enter para continuar.\n";
+    std::cin.ignore();
 }
 
 void Ui::menuAdicionarModelo() {
+    //Exibição linhas disponíveis
     exibirLinhasDisponiveis();
     std::string type, name;
 
@@ -115,23 +124,45 @@ void Ui::menuAdicionarModelo() {
             existe = true;
         }   
     }
-    
+
     if (!existe) {
+        limparInput();
         std::cout << "Erro: Linha inválida.\n";
+        std::cout << "Aperte Enter para continuar.\n";
+        std::cin.ignore();
+
         return;
     }
+    //
+    exibirModelosLinha(type);
 
+    //Verifica se o modelo escolhido existe
+    
     std::cout << "\nDigite o nome do novo modelo que deseja criar: ";
     limparInput();
     std::getline(std::cin, name);
+    auto const models = catalog.getModels();
 
-    if(name.find(type) != std::string::npos)
+    existe = false;
+    for (const auto & modelo :  models.at(type))
     {
-        catalog.addNewModel(name);
+        if(name == modelo)
+        {
+            existe = true;
+            break;
+        }
+    }
+
+    if(existe)
+    {
+        catalog.addNewModel(type + " " + name);
         std::cout << "Modelo adicionado com sucesso!\n";
     }else{
         std::cout << "Escreva um Modelo que pertence a linha.\n";
     }
+    limparInput();
+    std::cout << "Aperte Enter para continuar.\n";
+    std::cin.ignore();
 }
 
 void Ui::menuRemoverModelo() {
@@ -142,8 +173,11 @@ void Ui::menuRemoverModelo() {
         catalog.removeModel(id);
     } else {
         std::cout << "\nDigite um ID correto.";
-        limparInput();
     }
+
+    limparInput();
+    std::cout << "Aperte Enter para continuar.\n";
+    std::cin.ignore();
 }
 
 void Ui::menuLeituraFases() {
@@ -153,7 +187,10 @@ void Ui::menuLeituraFases() {
     std::cout << "ID do medidor que deseja realizar as leituras: ";
     if (!(std::cin >> id))
     { 
-        limparInput(); 
+        std::cout << "Digite uma opção vália.\n";
+        limparInput();
+        std::cout << "Aperte Enter para continuar.\n";
+        std::cin.ignore();
         return; 
     }
     
@@ -162,11 +199,15 @@ void Ui::menuLeituraFases() {
     {
         std::cout << "A leitura da " << cont + 1 << "° fase é : " << measurements[cont ] << "\n";
     }
+    
+    limparInput();
+    std::cout << "Aperte Enter para continuar.\n";
+    std::cin.ignore();
 }
 
 // --- Menus de Texto ---
 
-void Ui::exibir_menu_inicial() {
+void Ui::exibirMenuInicial() {
     std::cout << "\n==============================";
     std::cout << "\n       MENU PRINCIPAL";
     std::cout << "\n==============================";
@@ -180,11 +221,20 @@ void Ui::exibir_menu_inicial() {
               << "\nEscolha: ";
 }
 
-void Ui::exibir_menu_linhas() {
+void Ui::exibirMenuLinhas() {
     std::cout << "\n--- Digite o nome de uma das linhas abaixo ---\n";
     for (const auto & linha : catalog.getLines()) 
     {
         std::cout << "  [" << linha << "]";
     }
     std::cout << "\nLinha: ";
+}
+
+void Ui::exibirModelosLinha (std::string & linha) {
+    std::cout << "\n--- Modelos da Linha Selecionada ---\n";
+    auto const modelos = catalog.getModels();
+    for (const auto & modelo :  modelos.at(linha))
+    {
+        std::cout << "  [" << modelo << "]";
+    }
 }

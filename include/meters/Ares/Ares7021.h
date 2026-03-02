@@ -5,6 +5,7 @@
 class Ares7021 : public Ares, SinglePhaseMeter
 {        
     public:
+        //Ares7021(bool is_template = false);
         Ares7021();
         ~Ares7021() override;
         std::vector<double> & getPhaseValues() override;

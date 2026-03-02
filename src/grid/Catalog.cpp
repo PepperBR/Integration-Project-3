@@ -17,8 +17,26 @@
 #include "meters/Zeus/Zeus8023.h"
 #include "meters/Zeus/Zeus8031.h"
 
+
+std::unordered_map<std::string, std::vector<std::string>> const Catalog::models = {
+    {"Apolo", {"6031"}},
+    {"Ares", {"7021","7023","7031","8023 15","8023 200","8023"}},
+    {"Cronos", {"6001 A","6003","6021 A","6021 L","7023 2.5","7023 L","7023",}},
+    {"Zeus", {"8021","8023","8031"}}
+};
+
 Catalog::Catalog()
 {
+/*     meter_list.emplace_back(std::make_unique<Ares7021>(true)); // usar o id como o seletor
+    meter_list.emplace_back(std::make_unique<Zeus8023>(true));
+
+
+    // Quando for listar as linhas, tu vai ler todos que e template e listar as linhasa disponiveis
+
+    // Quando for listar medidores de uma linha, ai tu mostrar com base nos que tem a line == lineSearch
+
+    // Quando for criar o medidor, utilizar o objeto template para fazer a cópia (Provavelmente tu vai ter que  criar um construtor de cópia, criar novo id, is_template configurar como false)
+ */
 };
 
 void Catalog::addNewModel (const std::string & name)
@@ -66,8 +84,6 @@ Line & Catalog::getAllModels()
 auto Catalog::factoryMeter (const std::string & name) -> std::unique_ptr<Meter>
 {
     auto meter = convertStringEnum(name);
-    
-    // TODO: Priorizar uso de make_fun
 
     switch (meter)
     {
@@ -146,4 +162,9 @@ Modelo Catalog::convertStringEnum (const std::string & type)
     if(type == "Zeus 8021") {return Modelo::Zeus8021;}
     if(type == "Zeus 8023") {return Modelo::Zeus8023;}
     if(type == "Zeus 8031") {return Modelo::Zeus8031;}
+};
+
+const std::unordered_map<std::string,std::vector<std::string>> Catalog::getModels ()
+{
+    return models;
 };
