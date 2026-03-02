@@ -2,7 +2,7 @@
 #include <iostream>
 
 Zeus8021::Zeus8021()
-    : Zeus("Zeus 8021")
+    : Zeus("8021")
 {
 };
 

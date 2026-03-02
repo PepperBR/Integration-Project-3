@@ -2,7 +2,7 @@
 #include <iostream>
 
 Apolo6031::Apolo6031()
-    : Apolo("Apolo 6031")
+    : Apolo("6031")
 {
 };
 

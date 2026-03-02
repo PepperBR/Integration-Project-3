@@ -1,7 +1,7 @@
 #include "meters/Ares/Ares.h"
 
 Ares::Ares(std::string _name)
-    : Meter(GlobalID::generateID(), _name)
+    : Meter(GlobalID::generateID(), "Ares " + _name)
 {
 };
 

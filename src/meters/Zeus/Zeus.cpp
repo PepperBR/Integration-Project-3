@@ -1,7 +1,7 @@
 #include "meters/Zeus/Zeus.h"
 
 Zeus::Zeus(std::string _name)
-    : Meter(GlobalID::generateID(), _name)
+    : Meter(GlobalID::generateID(), "Zeus " + _name)
 {
 };
 

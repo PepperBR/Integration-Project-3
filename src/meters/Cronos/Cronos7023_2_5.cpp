@@ -2,7 +2,7 @@
 #include <iostream>
 
 Cronos7023_2_5::Cronos7023_2_5()
-    : Cronos("Cronos 7023 2.5")
+    : Cronos("7023 2.5")
 {
 };
 

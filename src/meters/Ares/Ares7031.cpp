@@ -2,7 +2,7 @@
 #include <iostream>
 
 Ares7031::Ares7031()
-    : Ares("Ares 7031")
+    : Ares("7031")
 {
 };
 

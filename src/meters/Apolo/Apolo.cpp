@@ -1,7 +1,8 @@
 #include "meters/Apolo/Apolo.h"
 
+
 Apolo::Apolo(std::string _name)
-    : Meter(GlobalID::generateID(), _name)
+    : Meter(GlobalID::generateID(), "Apolo " + _name)
 {
 };
 

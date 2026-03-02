@@ -2,7 +2,7 @@
 #include <iostream>
 
 Ares8023_15::Ares8023_15()
-    : Ares("Ares 8023 15")
+    : Ares("8023 15")
 {
 };
 
