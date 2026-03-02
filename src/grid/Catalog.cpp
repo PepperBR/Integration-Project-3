@@ -27,15 +27,21 @@ std::unordered_map<std::string, std::vector<std::string>> const Catalog::models 
 
 Catalog::Catalog()
 {
+    //TODO:
+
 /*     meter_list.emplace_back(std::make_unique<Ares7021>(true)); // usar o id como o seletor
     meter_list.emplace_back(std::make_unique<Zeus8023>(true));
 
-
+    // Regra do 5
+    
     // Quando for listar as linhas, tu vai ler todos que e template e listar as linhasa disponiveis
 
     // Quando for listar medidores de uma linha, ai tu mostrar com base nos que tem a line == lineSearch
 
-    // Quando for criar o medidor, utilizar o objeto template para fazer a cópia (Provavelmente tu vai ter que  criar um construtor de cópia, criar novo id, is_template configurar como false)
+    // Quando for criar o medidor, utilizar o objeto template para fazer a cópia 
+    (Provavelmente tu vai ter que  criar um construtor de cópia, criar novo id, is_template configurar como false)
+
+    // Quando alterar essas coisas, Alterar Catálogo por completo e UI por completo
  */
 };
 
