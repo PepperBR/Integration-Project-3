@@ -1,4 +1,4 @@
-#include "grid/Catalog.h"
+#include "core/Catalog.h"
 #include "meters/Apolo/Apolo6031.h"
 #include "meters/Ares/Ares7021.h"
 #include "meters/Ares/Ares7023.h"
@@ -30,8 +30,8 @@ std::unordered_map<std::string, std::vector<std::string>> const Catalog::models 
         -> Ajustar para aceitar template (True/False) [X] 
         -> Adicionar name_Line , name_Model/ getFullName(), getNameLine() e getNameModel() [X]
         -> Modificar para ser possível fazer uma cópia extra de um objeto do Meter, modificando ID e colocando 
-        template como False []
-        -> Fazer a leitura de Fases Funcionar []
+        template como False [X]
+        -> Fazer a leitura de Fases Funcionar [] depois
     -> Modificar Catalog
         -> Ajustar para quando cirar uma deep copy, ser ajustado a variável is_template (True   ) []
         -> Com a mudança em como vai ficar Meter, vai ser necessário alterar todos os métodos para essa mudança de comportamento []
@@ -56,6 +56,26 @@ Catalog::Catalog()
 
     // Quando alterar essas coisas, Alterar Catálogo por completo e UI por completo
  */
+    meter_list.emplace_back(std::make_unique<Apolo6031>());
+    
+    meter_list.emplace_back(std::make_unique<Zeus8021>());
+    meter_list.emplace_back(std::make_unique<Zeus8023>());
+    meter_list.emplace_back(std::make_unique<Zeus8031>());
+    
+    meter_list.emplace_back(std::make_unique<Cronos7023>());
+    meter_list.emplace_back(std::make_unique<Cronos7023_L>());
+    meter_list.emplace_back(std::make_unique<Cronos7023_2_5>());
+    meter_list.emplace_back(std::make_unique<Cronos6021_L>());
+    meter_list.emplace_back(std::make_unique<Cronos6021_A>());
+    meter_list.emplace_back(std::make_unique<Cronos6003>());
+    meter_list.emplace_back(std::make_unique<Cronos6001_A>());
+
+    meter_list.emplace_back(std::make_unique<Ares7021>());
+    meter_list.emplace_back(std::make_unique<Ares8023>());
+    meter_list.emplace_back(std::make_unique<Ares7023>());
+    meter_list.emplace_back(std::make_unique<Ares7031>());
+    meter_list.emplace_back(std::make_unique<Ares8023_15>());
+    meter_list.emplace_back(std::make_unique<Ares8023_200>());
 };
 
 void Catalog::addNewModel (const std::string & name)
@@ -145,21 +165,28 @@ auto Catalog::factoryMeter (const std::string & name) -> std::unique_ptr<Meter>
     }
 };
 
-const LineList & Catalog::getLines() const
+LineList Catalog::getLines() const
 {
+    
+    std::set<std::string> lines;
+    for (const auto & meter  : meter_list)
+    {
+        lines.insert(meter->getNameLine());
+    }   
+   
     return lines;
 }
 
-Meters Catalog::getLineModels(const std::string & type) {
-    Meters filtered; 
+std::vector<std::pair<int, std::string>> Catalog::getLineModels(const std::string & name_line) {
 
-    for (auto & model : meters) {
-        if (model->getFullName().find(type) != std::string::npos) {
-            filtered.push_back(model.get()); 
+    std::vector<std::pair<int, std::string>> list;
+    for (auto & model : meter_list) {
+        if (model->getFullName().find(name_line) != std::string::npos) {
+            list.push_back({model->getID(),model->getFullName()});
         }
     }
     
-    return filtered; 
+    return list; 
 };
 
 Modelo Catalog::convertStringEnum (const std::string & type)

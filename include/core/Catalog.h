@@ -5,6 +5,7 @@
 #include <string>
 #include <meters/Meter.h>
 #include <unordered_map>
+#include <set>
 
 enum class Modelo
 {
@@ -28,9 +29,10 @@ enum class Modelo
 };
 
 
-using LineList = std::list<std::string>;
+using LineList = std::set<std::string>;
 using Line = std::list<std::unique_ptr<Meter>>;
 using Meters = std::vector<Meter*>;
+using MetersList = std::list<std::unique_ptr<Meter>>;
 
 class Catalog          
 {
@@ -39,7 +41,8 @@ private:
     LineList lines {"Ares","Zeus","Cronos","Apolo"}; // TODO: transformar em enum
     static std::unordered_map<std::string, std::vector<std::string>> const models;
     std::unique_ptr<Meter> factoryMeter(const std::string& name);
-    Meters meter_list;
+    MetersList meter_list;
+    
 public:
     void addNewModel (const std::string & name); // adicionar
     void removeModel (const int ID); // remover
@@ -47,8 +50,9 @@ public:
     
     void sortList(); // auxiliar na hora de deixar a lista dos modelos ordenada                                  
     Line & getAllModels(); // pegar todos os modelos organizado
-    const LineList & getLines () const; // pegar todas as linhas
-    Meters getLineModels(const std::string & type);// pegar todos os modelos de uma linha especíca organizado
+    LineList getLines () const; // pegar todas as linhas
+    std::vector<std::pair<int, std::string>> getLineModels(const std::string & line_name);// pegar todos os modelos de uma linha especíca organizado
+    
     Modelo convertStringEnum (const std::string & type); // converter
     static const std::unordered_map<std::string,std::vector<std::string>> getModels ();
     Catalog();

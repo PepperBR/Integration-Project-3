@@ -84,7 +84,7 @@ void Ui::listarModelosPorLinha() {
     }else{
         for(auto & modelo : modelos_linha)
         {
-            std::cout << modelo->getFullName() << std::endl;
+            std::cout << modelo.second << std::endl;
         }
     }
 
@@ -100,7 +100,7 @@ void Ui::listarTodosModelos() {
         auto modelos_linha = catalog.getLineModels(linha);
         for(auto & modelo : modelos_linha)
         {
-            std::cout << modelo->getFullName() << "         " << modelo->getID() << "\n";
+            std::cout << modelo.second << "         " << modelo.first << "\n";
         }
     }
 
