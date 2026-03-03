@@ -11,4 +11,5 @@ private:
 public:
     virtual ~SinglePhaseMeter() = default;
     virtual std::vector<double> & getPhaseValues();
+
 };

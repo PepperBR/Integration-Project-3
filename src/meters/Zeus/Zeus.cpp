@@ -1,21 +1,11 @@
 #include "meters/Zeus/Zeus.h"
 
-Zeus::Zeus(std::string _name)
-    : Meter(GlobalID::generateID(), "Zeus " + _name)
+Zeus::Zeus(int id, std::string model)
+    : Meter(id, "Zeus" , model)
 {
 };
 
 Zeus::~Zeus()
 {
     std::cout << "Zeus Meter Destructor is begin called" << std::endl;
-};
-
-std::string & Zeus::getName()
-{
-    return name;
-};
-
-int Zeus::getID() 
-{
-    return ID;
 };

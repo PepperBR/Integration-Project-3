@@ -8,5 +8,8 @@ public:
     Apolo6031();
     ~Apolo6031() override;
     std::vector<double> & getPhaseValues() override;
+
+    std::unique_ptr<Meter> createMeter(int new_id) const override;
+    std::unique_ptr<Meter> cloneMeter() const override; 
 };
 

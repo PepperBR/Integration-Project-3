@@ -8,5 +8,9 @@ class Zeus8023 : public Zeus, TwoPhaseMeter
         Zeus8023();
         ~Zeus8023() override;
         std::vector<double> & getPhaseValues() override;
+
+        std::unique_ptr<Meter> createMeter(int new_id) const override;
+        std::unique_ptr<Meter> cloneMeter() const override;
+
 };
 

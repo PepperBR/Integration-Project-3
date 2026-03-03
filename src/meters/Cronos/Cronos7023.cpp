@@ -1,8 +1,9 @@
 #include "meters/Cronos/Cronos7023.h"
+#include "core/GlobalID.h"
 #include <iostream>
 
 Cronos7023::Cronos7023()
-    : Cronos("7023")
+    : Cronos(GlobalID::generateID(), "7023")
 {
 };
 
@@ -16,3 +17,12 @@ std::vector<double> & Cronos7023::getPhaseValues()
     return ThreePhaseMeter::getPhaseValues();
 };
 
+std::unique_ptr<Meter> Cronos7023::createMeter(int new_id) const
+{
+    return std::make_unique<Cronos7023>();
+}
+
+std::unique_ptr<Meter> Cronos7023::cloneMeter() const
+{
+    return std::make_unique<Cronos7023>(*this);
+}

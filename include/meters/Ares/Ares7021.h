@@ -9,5 +9,8 @@ class Ares7021 : public Ares, SinglePhaseMeter
         Ares7021();
         ~Ares7021() override;
         std::vector<double> & getPhaseValues() override;
+
+        std::unique_ptr<Meter> createMeter(int new_id) const override;
+        std::unique_ptr<Meter> cloneMeter() const override; 
 };
 

@@ -24,7 +24,20 @@ std::unordered_map<std::string, std::vector<std::string>> const Catalog::models 
     {"Cronos", {"6001 A","6003","6021 A","6021 L","7023 2.5","7023 L","7023",}},
     {"Zeus", {"8021","8023","8031"}}
 };
-
+/*
+    - Planejamento:
+    -> Modificar Meter
+        -> Ajustar para aceitar template (True/False) [X] 
+        -> Adicionar name_Line , name_Model/ getFullName(), getNameLine() e getNameModel() [X]
+        -> Modificar para ser possível fazer uma cópia extra de um objeto do Meter, modificando ID e colocando 
+        template como False []
+        -> Fazer a leitura de Fases Funcionar []
+    -> Modificar Catalog
+        -> Ajustar para quando cirar uma deep copy, ser ajustado a variável is_template (True   ) []
+        -> Com a mudança em como vai ficar Meter, vai ser necessário alterar todos os métodos para essa mudança de comportamento []
+    -> Modificar Ui
+        -> Com a mudança em como vai ficar Catalog,  vai ser necessário alterar todos os métodos para essa mudança de comportamento []
+*/
 Catalog::Catalog()
 {
     //TODO:
@@ -77,7 +90,7 @@ void Catalog::sortList()
         [](const std::unique_ptr<Meter>& meter_a,
             const std::unique_ptr<Meter>& meter_b)
         {
-            return meter_a->getName() < meter_b->getName();
+            return meter_a->getFullName() < meter_b->getFullName();
         });
 };
 
@@ -141,7 +154,7 @@ Meters Catalog::getLineModels(const std::string & type) {
     Meters filtered; 
 
     for (auto & model : meters) {
-        if (model->getName().find(type) != std::string::npos) {
+        if (model->getFullName().find(type) != std::string::npos) {
             filtered.push_back(model.get()); 
         }
     }

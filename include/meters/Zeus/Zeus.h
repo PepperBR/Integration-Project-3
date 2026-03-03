@@ -1,12 +1,13 @@
 #pragma once
+
 #include "meters/Meter.h"
-#include "core/GlobalID.h"
+
 //Abstract Class
 class Zeus : public Meter
 {
 public:
-    std::string & getName() override;
-    int getID() override;
+    using Meter::Meter;
+
     ~Zeus() override;
-    Zeus(std::string _name);
+    Zeus(int id, std::string model);
 };

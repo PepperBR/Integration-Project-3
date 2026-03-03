@@ -8,5 +8,8 @@ class Ares8023_200 : public Ares, TwoPhaseMeter
         Ares8023_200();
         ~Ares8023_200() override;
         std::vector<double> & getPhaseValues() override;
+
+        std::unique_ptr<Meter> createMeter(int new_id) const override;
+        std::unique_ptr<Meter> cloneMeter() const override; 
 };
 

@@ -68,7 +68,7 @@ void Ui::listarModelosComId() {
     std::cout << "--------------------------\n";
     for (auto & meter : catalog.getAllModels())
     {
-        std::cout << meter->getID() << "          " << meter->getName() << "\n";
+        std::cout << meter->getID() << "          " << meter->getFullName() << "\n";
     }
 }
 
@@ -84,7 +84,7 @@ void Ui::listarModelosPorLinha() {
     }else{
         for(auto & modelo : modelos_linha)
         {
-            std::cout << modelo->getName() << std::endl;
+            std::cout << modelo->getFullName() << std::endl;
         }
     }
 
@@ -100,7 +100,7 @@ void Ui::listarTodosModelos() {
         auto modelos_linha = catalog.getLineModels(linha);
         for(auto & modelo : modelos_linha)
         {
-            std::cout << modelo->getName() << "         " << modelo->getID() << "\n";
+            std::cout << modelo->getFullName() << "         " << modelo->getID() << "\n";
         }
     }
 

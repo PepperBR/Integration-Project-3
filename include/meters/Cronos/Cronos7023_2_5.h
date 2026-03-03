@@ -8,5 +8,8 @@ class Cronos7023_2_5 : public Cronos, TwoPhaseMeter
         Cronos7023_2_5();
         ~Cronos7023_2_5() override;
         std::vector<double> & getPhaseValues() override;
+
+        std::unique_ptr<Meter> createMeter(int new_id) const override;
+        std::unique_ptr<Meter> cloneMeter() const override; 
 };
 

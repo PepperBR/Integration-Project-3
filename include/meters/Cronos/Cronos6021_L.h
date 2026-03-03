@@ -8,5 +8,8 @@ class Cronos6021_L : public Cronos, ThreePhaseMeter
         Cronos6021_L();
         ~Cronos6021_L() override;
         std::vector<double> & getPhaseValues() override;
+
+        std::unique_ptr<Meter> createMeter(int new_id) const override;
+        std::unique_ptr<Meter> cloneMeter() const override; 
 };
 
