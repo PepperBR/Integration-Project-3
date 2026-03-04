@@ -7,6 +7,7 @@ class Apolo : public Meter
 {
 public:
     ~Apolo() override;
+    Apolo(const Apolo& other, int new_id);
     Apolo(int id, std::string model);
 };
 

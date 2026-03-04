@@ -27,6 +27,11 @@ public:
         return name_line + " " + name_model;
     }
 
+    bool getIsTemplate () const 
+    {
+        return is_template;
+    }
+
     int getID() const 
     {
         return ID;
@@ -41,11 +46,6 @@ public:
     {
         return name_model;
     }
-
-    /*
-        Por padrão os modelos de medidores serão inicializados como template, apenas quando eu adicionar um novo medidor,
-        por meio de uma cópia do objeto original, que o is_template será alterado para false
-    */
     
     // Construtor de Cópia
     Meter(const Meter &other, int new_id) 
@@ -64,9 +64,7 @@ public:
     {
         std::cout << "Virtual Meter Destructor is begin called" << std::endl;
     };
-
-    virtual std::unique_ptr<Meter> createMeter(int new_id) const = 0;
-
+    
     virtual std::unique_ptr<Meter> cloneMeter() const = 0;
 
 };

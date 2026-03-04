@@ -6,8 +6,7 @@
 class Zeus : public Meter
 {
 public:
-    using Meter::Meter;
-
+    Zeus(const Zeus& other, int new_id);
     ~Zeus() override;
     Zeus(int id, std::string model);
 };

@@ -17,13 +17,6 @@
 #include "meters/Zeus/Zeus8023.h"
 #include "meters/Zeus/Zeus8031.h"
 
-
-std::unordered_map<std::string, std::vector<std::string>> const Catalog::models = {
-    {"Apolo", {"6031"}},
-    {"Ares", {"7021","7023","7031","8023 15","8023 200","8023"}},
-    {"Cronos", {"6001 A","6003","6021 A","6021 L","7023 2.5","7023 L","7023",}},
-    {"Zeus", {"8021","8023","8031"}}
-};
 /*
     - Planejamento:
     -> Modificar Meter
@@ -40,22 +33,6 @@ std::unordered_map<std::string, std::vector<std::string>> const Catalog::models 
 */
 Catalog::Catalog()
 {
-    //TODO:
-
-/*     meter_list.emplace_back(std::make_unique<Ares7021>(true)); // usar o id como o seletor
-    meter_list.emplace_back(std::make_unique<Zeus8023>(true));
-
-    // Regra do 5
-    
-    // Quando for listar as linhas, tu vai ler todos que e template e listar as linhasa disponiveis
-
-    // Quando for listar medidores de uma linha, ai tu mostrar com base nos que tem a line == lineSearch
-
-    // Quando for criar o medidor, utilizar o objeto template para fazer a cópia 
-    (Provavelmente tu vai ter que  criar um construtor de cópia, criar novo id, is_template configurar como false)
-
-    // Quando alterar essas coisas, Alterar Catálogo por completo e UI por completo
- */
     meter_list.emplace_back(std::make_unique<Apolo6031>());
     
     meter_list.emplace_back(std::make_unique<Zeus8021>());
@@ -78,16 +55,17 @@ Catalog::Catalog()
     meter_list.emplace_back(std::make_unique<Ares8023_200>());
 };
 
-void Catalog::addNewModel (const std::string & name)
+void Catalog::addNewModel (const std::string & full_name)
 {   
-    auto model = factoryMeter(name);
-    meters.push_back(std::move(model));
+    auto model = factoryMeter(full_name);
+    meter_list.push_back(std::move(model));
+    sortList();
 };
 
 void Catalog::removeModel (const int ID)
 {
-    meters.remove_if([ID](std::unique_ptr<Meter> & meter) {
-        return  meter->getID() == ID;
+    meter_list.remove_if([ID](std::unique_ptr<Meter> & meter_list) {
+        return  meter_list->getID() == ID && !meter_list->getIsTemplate() ;
     });
 }; 
 
@@ -106,7 +84,7 @@ std::vector<double> & Catalog::getMeasurementsPhases(const int ID)
 
 void Catalog::sortList()
 {
-    meters.sort(
+    meter_list.sort(
         [](const std::unique_ptr<Meter>& meter_a,
             const std::unique_ptr<Meter>& meter_b)
         {
@@ -114,56 +92,15 @@ void Catalog::sortList()
         });
 };
 
-Line & Catalog::getAllModels()
+std::unique_ptr<Meter> Catalog::factoryMeter(const std::string& name)
 {
-    sortList();
-    return meters;
-};
-
-auto Catalog::factoryMeter (const std::string & name) -> std::unique_ptr<Meter>
-{
-    auto meter = convertStringEnum(name);
-
-    switch (meter)
-    {
-    case Modelo::Apolo6031 :
-        return std::make_unique<Apolo6031>();
-    case Modelo::Ares7021 :
-        return std::make_unique<Ares7021>();
-    case Modelo::Ares7031 :
-        return std::make_unique<Ares7031>();
-    case Modelo::Ares7023 :
-        return std::make_unique<Ares7023>();
-    case Modelo::Ares8023_15 :
-        return std::make_unique<Ares8023_15>();
-    case Modelo::Ares8023_200 :
-        return std::make_unique<Ares8023_200>();
-    case Modelo::Ares8023 :
-        return std::make_unique<Ares8023>();
-    case Modelo::Cronos6001_A :
-        return std::make_unique<Cronos6001_A>();
-    case Modelo::Cronos6003 :
-        return std::make_unique<Cronos6003>();
-    case Modelo::Cronos6021_A :
-        return std::make_unique<Cronos6021_A>();
-    case Modelo::Cronos6021_L :
-        return std::make_unique<Cronos6021_L>();
-    case Modelo::Cronos7023_2_5 :
-        return std::make_unique<Cronos7023_2_5>();
-    case Modelo::Cronos7023_L :
-        return std::make_unique<Cronos7023_L>();
-    case Modelo::Cronos7023 :
-        return std::make_unique<Cronos7023>();
-    case Modelo::Zeus8021 :
-        return std::make_unique<Zeus8021>();
-    case Modelo::Zeus8023 :
-        return std::make_unique<Zeus8023>();
-    case Modelo::Zeus8031 :
-        return std::make_unique<Zeus8031>();    
-    default:
-        break;
+    for (const auto& meter_template : meter_list) {
+        if (meter_template->getFullName() == name ) {
+            return meter_template->cloneMeter();
+        }
     }
-};
+    return nullptr; 
+}
 
 LineList Catalog::getLines() const
 {
@@ -187,30 +124,4 @@ std::vector<std::pair<int, std::string>> Catalog::getLineModels(const std::strin
     }
     
     return list; 
-};
-
-Modelo Catalog::convertStringEnum (const std::string & type)
-{
-    if(type == "Apolo 6031") {return Modelo::Apolo6031;}
-    if(type == "Ares 7021") {return Modelo::Ares7021;}
-    if(type == "Ares 7031") {return Modelo::Ares7031;}
-    if(type == "Ares 7023") {return Modelo::Ares7023;}
-    if(type == "Ares 8023 15") {return Modelo::Ares8023_15;}
-    if(type == "Ares 8023 200") {return Modelo::Ares8023_200;}
-    if(type == "Ares 8023") {return Modelo::Ares8023;}
-    if(type == "Cronos 6001 A") {return Modelo::Cronos6001_A;}
-    if(type == "Cronos 6003") {return Modelo::Cronos6003;}
-    if(type == "Cronos 6021 A") {return Modelo::Cronos6021_A;}
-    if(type == "Cronos 6021 L") {return Modelo::Cronos6021_L;}
-    if(type == "Cronos 7023 2.5") {return Modelo::Cronos7023_2_5;}
-    if(type == "Cronos 7023 L") {return Modelo::Cronos7023_L;}
-    if(type == "Cronos 7023") {return Modelo::Cronos7023;}
-    if(type == "Zeus 8021") {return Modelo::Zeus8021;}
-    if(type == "Zeus 8023") {return Modelo::Zeus8023;}
-    if(type == "Zeus 8031") {return Modelo::Zeus8031;}
-};
-
-const std::unordered_map<std::string,std::vector<std::string>> Catalog::getModels ()
-{
-    return models;
 };

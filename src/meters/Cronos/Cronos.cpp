@@ -5,6 +5,12 @@ Cronos::Cronos(int id, std::string model)
 {
 };
 
+Cronos::Cronos(const Cronos& other, int new_id) 
+    : Meter(other, new_id) 
+{
+};
+
+
 Cronos::~Cronos()
 {
     std::cout << "Cronos Meter Destructor is begin called" << std::endl;

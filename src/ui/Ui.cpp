@@ -66,9 +66,12 @@ void Ui::exibirLinhasDisponiveis() {
 void Ui::listarModelosComId() {
     std::cout << "\nID   |   Nome do modelo\n";
     std::cout << "--------------------------\n";
-    for (auto & meter : catalog.getAllModels())
+    for (const auto & line : catalog.getLines())
     {
-        std::cout << meter->getID() << "          " << meter->getFullName() << "\n";
+        for (const auto & meter : catalog.getLineModels(line))
+        {
+            std::cout << meter.first << "          " << meter.second << "\n";
+        }
     }
 }
 
@@ -112,15 +115,15 @@ void Ui::listarTodosModelos() {
 void Ui::menuAdicionarModelo() {
     //Exibição linhas disponíveis
     exibirLinhasDisponiveis();
-    std::string type, name;
+    std::string line, name;
 
     std::cout << "\nEscolha a linha: ";
-    std::cin >> type;
+    std::cin >> line;
 
     bool existe = false;
-    for (const auto & line : catalog.getLines())
+    for (const auto & linha : catalog.getLines())
     {
-        if (line == type){
+        if (linha == line){
             existe = true;
         }   
     }
@@ -134,19 +137,19 @@ void Ui::menuAdicionarModelo() {
         return;
     }
     //
-    exibirModelosLinha(type);
+    exibirModelosLinha(line);
 
     //Verifica se o modelo escolhido existe
     
     std::cout << "\nDigite o nome do novo modelo que deseja criar: ";
     limparInput();
     std::getline(std::cin, name);
-    auto const models = catalog.getModels();
+    auto const models = catalog.getLineModels(line);
 
     existe = false;
-    for (const auto & modelo :  models.at(type))
+    for (const auto & modelo :  models)
     {
-        if(name == modelo)
+        if(name == modelo.second)
         {
             existe = true;
             break;
@@ -155,7 +158,7 @@ void Ui::menuAdicionarModelo() {
 
     if(existe)
     {
-        catalog.addNewModel(type + " " + name);
+        catalog.addNewModel(line + " " + name);
         std::cout << "Modelo adicionado com sucesso!\n";
     }else{
         std::cout << "Escreva um Modelo que pertence a linha.\n";
@@ -232,9 +235,9 @@ void Ui::exibirMenuLinhas() {
 
 void Ui::exibirModelosLinha (std::string & linha) {
     std::cout << "\n--- Modelos da Linha Selecionada ---\n";
-    auto const modelos = catalog.getModels();
-    for (const auto & modelo :  modelos.at(linha))
+    auto const modelos = catalog.getLineModels(linha);
+    for (const auto & modelo :  modelos)
     {
-        std::cout << "  [" << modelo << "]";
+        std::cout << "  [" << modelo.second << "]";
     }
 }

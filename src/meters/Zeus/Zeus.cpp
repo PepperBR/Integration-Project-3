@@ -5,6 +5,12 @@ Zeus::Zeus(int id, std::string model)
 {
 };
 
+Zeus::Zeus(const Zeus& other, int new_id) 
+    : Meter(other, new_id) 
+{
+};
+
+
 Zeus::~Zeus()
 {
     std::cout << "Zeus Meter Destructor is begin called" << std::endl;

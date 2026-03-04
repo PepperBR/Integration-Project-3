@@ -7,6 +7,11 @@ Cronos6021_L::Cronos6021_L()
 {
 };
 
+Cronos6021_L::Cronos6021_L(const Cronos6021_L& other, int new_id)
+    : Cronos(other, new_id) 
+{
+};
+
 Cronos6021_L::~Cronos6021_L()
 {
     std::cout << "Cronos 6021 L Meter Destructor is begin called" << std::endl;
@@ -17,12 +22,7 @@ std::vector<double> & Cronos6021_L::getPhaseValues()
     return ThreePhaseMeter::getPhaseValues();
 };
 
-std::unique_ptr<Meter> Cronos6021_L::createMeter(int new_id) const
-{
-    return std::make_unique<Cronos6021_L>();
-}
-
 std::unique_ptr<Meter> Cronos6021_L::cloneMeter() const
 {
-    return std::make_unique<Cronos6021_L>(*this);
+    return std::make_unique<Cronos6021_L>(*this, GlobalID::generateID());
 }

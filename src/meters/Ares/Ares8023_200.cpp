@@ -7,6 +7,11 @@ Ares8023_200::Ares8023_200()
 {
 };
 
+Ares8023_200::Ares8023_200(const Ares8023_200& other, int new_id)
+    : Ares(other, new_id) 
+{
+};
+
 Ares8023_200::~Ares8023_200()
 {
     std::cout << "Ares 8023 200 Meter Destructor is begin called" << std::endl;
@@ -18,14 +23,7 @@ std::vector<double> & Ares8023_200::getPhaseValues()
 };
 
 
-std::unique_ptr<Meter> Ares8023_200::createMeter(int new_id) const
-{
-    return std::make_unique<Ares8023_200>();
-}
-
 std::unique_ptr<Meter> Ares8023_200::cloneMeter() const
 {
-    return std::make_unique<Ares8023_200>(*this);
+    return std::make_unique<Ares8023_200>(*this, GlobalID::generateID());
 }
-
-

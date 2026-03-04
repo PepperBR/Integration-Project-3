@@ -1,11 +1,13 @@
 #include "core/Catalog.h"
 #include "catch.hpp"
+#include <string>
+#include <list>
 
 namespace jmcp
 {
 
 
-TEST_CASE("Testing Methods:")
+TEST_CASE("Testing Methods")
 {
     SECTION("getLines()")
     {
@@ -21,7 +23,7 @@ TEST_CASE("Testing Methods:")
         {
             REQUIRE(line == expected_lines[index++]);
         }
-    }
+    };
 
     SECTION("getLineModels()")
     {
@@ -59,9 +61,113 @@ TEST_CASE("Testing Methods:")
         {
             REQUIRE(model.second == expected_models_Ares[index++]);
         }
+    };
+
+    SECTION("getLines()")
+    {
+        Catalog catalog;
+        std::string expected_lines[] = {"Apolo", "Ares", "Cronos", "Zeus"};
+    
+        int index = 0;
+        auto lines = catalog.getLines();
+    
+        REQUIRE(lines.size() == 4);
+    
+        for (const auto &line : lines)
+        {
+            REQUIRE(line == expected_lines[index++]);
+        }
+    };
+}
+/*
+
+TEST_CASE("Testing factory")
+{
+    SECTION("Using Factory")
+    {
+        Catalog catalog;
+        int expected_id_model[] = {18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34};
+
+        std::string expected_name_models[] = {
+            "Apolo 6031", "Zeus 8021","Zeus 8023","Zeus 8031","Cronos 7023",
+            "Cronos 7023 L","Cronos 7023 2.5","Cronos 6021 L","Cronos 6021 A",
+            "Cronos 6003","Cronos 6001 A","Ares 7021","Ares 8023","Ares 7023",
+            "Ares 7031","Ares 8023 15","Ares 8023 200"
+        };
+
+        for (int index = 0; index < 17; index++) {
+            auto new_model = catalog.factoryMeter(expected_name_models[index]);
+
+            REQUIRE(new_model->getID() == expected_id_model[index]); 
+            REQUIRE(new_model->getFullName() == expected_name_models[index]);
+            REQUIRE(new_model->getIsTemplate() == false);
+        }
     }
+}
 
+*/
+TEST_CASE("Testing if new model is being added to meter_list")
+{
+    SECTION("Add new Model")
+    {
+        Catalog catalog;
+        REQUIRE(catalog.getLineModels("Apolo").size() == 1);
+        catalog.addNewModel("Apolo 6031");
+        REQUIRE(catalog.getLineModels("Apolo").size() == 2);
+    }
+}
 
+TEST_CASE("Testing if is possible to remove a new model")
+{
+    SECTION("Remove new Model")
+    {
+        Catalog catalog;
+        catalog.addNewModel("Apolo 6031"); // ID = 18
+        REQUIRE(catalog.getLineModels("Apolo").size() == 2);
+        
+        catalog.removeModel(18);
+        REQUIRE(catalog.getLineModels("Apolo").size() == 1);
 
+    }
+    SECTION("Remove Template")
+    {
+        Catalog catalog;
+
+        catalog.removeModel(2); // removing Template Zeus 8021
+        REQUIRE(catalog.getLineModels("Zeus").size( ) == 3);
+    }
+}
+
+TEST_CASE("Test if sortList() is working")
+{
+    SECTION("Sorting list")
+    {
+        Catalog catalog;
+
+        catalog.addNewModel("Apolo 6031");
+        catalog.addNewModel("Zeus 8031"); 
+        catalog.addNewModel("Cronos 7023 L"); 
+        catalog.addNewModel("Ares 8023"); 
+        catalog.addNewModel("Ares 7021");
+
+        std::string expected_name_models[] = {
+            "Apolo 6031","Apolo 6031", "Zeus 8021","Zeus 8023","Zeus 8031","Zeus 8031","Cronos 6001 A",
+            "Cronos 6003","Cronos 6021 A","Cronos 6021 L","Cronos 7023","Cronos 7023 2.5","Cronos 7023 L",
+            "Cronos 7023 L","Ares 7021","Ares 7021","Ares 7023","Ares 7031","Ares 8023","Ares 8023",
+            "Ares 8023 15","Ares 8023 200"
+        };
+
+        std::string lines_models[] = {"Apolo","Zeus","Cronos","Ares"};
+        int index_name_models = 0;
+
+        for (int index = 0; index < 4; index++)
+        {
+            for (const auto & meter : catalog.getLineModels(lines_models[index]))
+            {
+                REQUIRE(meter.second == expected_name_models[index_name_models]);
+                index_name_models ++;
+            }
+        }
+    }
 }
 }

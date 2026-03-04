@@ -6,55 +6,29 @@
 #include <meters/Meter.h>
 #include <unordered_map>
 #include <set>
-
-enum class Modelo
-{
-    Apolo6031,
-    Ares7021,
-    Ares7031,
-    Ares7023,
-    Ares8023_15,
-    Ares8023_200,
-    Ares8023,
-    Cronos6001_A,
-    Cronos6003,
-    Cronos6021_A,
-    Cronos6021_L,
-    Cronos7023_2_5,
-    Cronos7023_L,
-    Cronos7023,
-    Zeus8021,
-    Zeus8023,
-    Zeus8031
-};
-
+#include <algorithm>
 
 using LineList = std::set<std::string>;
 using Line = std::list<std::unique_ptr<Meter>>;
-using Meters = std::vector<Meter*>;
 using MetersList = std::list<std::unique_ptr<Meter>>;
 
 class Catalog          
 {
 private:
     Line meters;
-    LineList lines {"Ares","Zeus","Cronos","Apolo"}; // TODO: transformar em enum
-    static std::unordered_map<std::string, std::vector<std::string>> const models;
-    std::unique_ptr<Meter> factoryMeter(const std::string& name);
     MetersList meter_list;
+    std::unique_ptr<Meter> Catalog::factoryMeter(const std::string& name); // testado
     
 public:
-    void addNewModel (const std::string & name); // adicionar
-    void removeModel (const int ID); // remover
-    std::vector<double> & getMeasurementsPhases(const int ID); // realizar medições
+    void addNewModel (const std::string & name); // testado
+    void removeModel (const int ID); // testado
+    std::vector<double> & getMeasurementsPhases(const int ID); // realizar medições [AJUSTAR]
     
-    void sortList(); // auxiliar na hora de deixar a lista dos modelos ordenada                                  
-    Line & getAllModels(); // pegar todos os modelos organizado
-    LineList getLines () const; // pegar todas as linhas
-    std::vector<std::pair<int, std::string>> getLineModels(const std::string & line_name);// pegar todos os modelos de uma linha especíca organizado
-    
-    Modelo convertStringEnum (const std::string & type); // converter
-    static const std::unordered_map<std::string,std::vector<std::string>> getModels ();
+    void sortList(); // testado                        
+    LineList getLines () const; // testado
+    std::vector<std::pair<int, std::string>> getLineModels(const std::string & line_name);// testado    
+
+
     Catalog();
 };
 
