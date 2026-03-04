@@ -1,5 +1,5 @@
 #include "meters/Apolo/Apolo.h"
-
+#include <iostream>
 
 Apolo::Apolo(int id, std::string model)
     : Meter(id, "Apolo" , model)

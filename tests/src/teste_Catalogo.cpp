@@ -79,33 +79,7 @@ TEST_CASE("Testing Methods")
         }
     };
 }
-/*
 
-TEST_CASE("Testing factory")
-{
-    SECTION("Using Factory")
-    {
-        Catalog catalog;
-        int expected_id_model[] = {18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34};
-
-        std::string expected_name_models[] = {
-            "Apolo 6031", "Zeus 8021","Zeus 8023","Zeus 8031","Cronos 7023",
-            "Cronos 7023 L","Cronos 7023 2.5","Cronos 6021 L","Cronos 6021 A",
-            "Cronos 6003","Cronos 6001 A","Ares 7021","Ares 8023","Ares 7023",
-            "Ares 7031","Ares 8023 15","Ares 8023 200"
-        };
-
-        for (int index = 0; index < 17; index++) {
-            auto new_model = catalog.factoryMeter(expected_name_models[index]);
-
-            REQUIRE(new_model->getID() == expected_id_model[index]); 
-            REQUIRE(new_model->getFullName() == expected_name_models[index]);
-            REQUIRE(new_model->getIsTemplate() == false);
-        }
-    }
-}
-
-*/
 TEST_CASE("Testing if new model is being added to meter_list")
 {
     SECTION("Add new Model")

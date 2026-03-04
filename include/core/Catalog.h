@@ -22,7 +22,7 @@ private:
 public:
     void addNewModel (const std::string & name); // testado
     void removeModel (const int ID); // testado
-    std::vector<double> & getMeasurementsPhases(const int ID); // realizar medições [AJUSTAR]
+    std::vector<double> & getMeasurementsPhases(const int ID); // realizar medições [AJUSTAR] 
     
     void sortList(); // testado                        
     LineList getLines () const; // testado

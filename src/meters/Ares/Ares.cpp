@@ -1,4 +1,5 @@
 #include "meters/Ares/Ares.h"
+#include <iostream>
 
 Ares::Ares(int id, std::string model)
     : Meter(id, "Ares", model)

@@ -1,4 +1,5 @@
 #include "meters/Zeus/Zeus.h"
+#include <iostream>
 
 Zeus::Zeus(int id, std::string model)
     : Meter(id, "Zeus" , model)
