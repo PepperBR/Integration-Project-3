@@ -3,7 +3,20 @@
 #include <iostream>
 #include <limits>
 
+Ui::Ui()
+    : menu_options({
+    MenuOptions
+    {1, "Filtrar modelos por linha", [this] () {listarModelosPorLinha(); }},
+    {2, "Ver todas as linhas", [this] () {exibirLinhasDisponiveis(); }},
+    {3, "Ver catálogo completo", [this] () {listarTodosModelos(); }},
+    {4, "Adicionar novo modelo", [this] () {menuAdicionarModelo(); }},
+    {5, "Remover modelo", [this] () {menuRemoverModelo(); }},
+    {6, "Ler medição de fase", [this] () {menuLeituraFases(); }},
+    {7, "Sair", []() {}}
+}){}
+
 void Ui::limparInput() {
+    
     std::cin.clear();
     std::cin.ignore();
 }
@@ -11,11 +24,17 @@ void Ui::limparInput() {
 void Ui::run() {
     int op;
     while (true) {
+
         exibirMenuInicial();
-        if (!(std::cin >> op)) 
+        
+        auto op = collectUserOpInput();
+
+        if (op == -1)
         {
             std::cout << "Opção inválida!\n";
+            
             limparInput();
+            
             continue;
         }
 
@@ -103,7 +122,7 @@ void Ui::listarTodosModelos() {
         auto modelos_linha = catalog.getLineModels(linha);
         for(auto & modelo : modelos_linha)
         {
-            std::cout << modelo.second << "         " << modelo.first << "\n";
+            std::cout << modelo.first << " | " << modelo.second << "\n";
         }
     }
 
@@ -113,7 +132,6 @@ void Ui::listarTodosModelos() {
 }
 
 void Ui::menuAdicionarModelo() {
-    //Exibição linhas disponíveis
     exibirLinhasDisponiveis();
     std::string line, name;
 
@@ -136,15 +154,12 @@ void Ui::menuAdicionarModelo() {
 
         return;
     }
-    //
     exibirModelosLinha(line);
 
-    //Verifica se o modelo escolhido existe
-    
     std::cout << "\nDigite o nome do novo modelo que deseja criar: ";
     limparInput();
     std::getline(std::cin, name);
-    auto const models = catalog.getLineModels(line);
+    const auto models = catalog.getLineModels(line); // fullName
 
     existe = false;
     for (const auto & modelo :  models)
@@ -210,18 +225,21 @@ void Ui::menuLeituraFases() {
 
 // --- Menus de Texto ---
 
-void Ui::exibirMenuInicial() {
+void Ui::exibirMenuTitle() 
+{
     std::cout << "\n==============================";
     std::cout << "\n       MENU PRINCIPAL";
-    std::cout << "\n==============================";
-    std::cout << "\n(1) Filtrar modelos por linha"
-              << "\n(2) Ver todas as linhas"
-              << "\n(3) Ver catálogo completo"
-              << "\n(4) Adicionar novo modelo"
-              << "\n(5) Remover modelo"
-              << "\n(6) Ler medição de fase"
-              << "\n(7) Sair"
-              << "\nEscolha: ";
+    std::cout << "\n==============================\n";
+}
+
+void Ui::exibirMenuInicial() 
+{   
+    exibirMenuTitle();
+    
+    for (const auto &menu_item : menu_options)
+    {
+        std::cout << menu_item.op << "\t" << menu_item.description << "\n";
+    }
 }
 
 void Ui::exibirMenuLinhas() {
@@ -238,6 +256,18 @@ void Ui::exibirModelosLinha (std::string & linha) {
     auto const modelos = catalog.getLineModels(linha);
     for (const auto & modelo :  modelos)
     {
-        std::cout << "  [" << modelo.second << "]";
+        std::cout << "(" << modelo.first << ") - " << modelo.second << "\n";
     }
+}
+
+int Ui::collectUserOpInput()
+{
+    int op;
+
+    if (!(std::cin >> op)) 
+    {
+        return -1;
+    }
+
+    return op;
 }

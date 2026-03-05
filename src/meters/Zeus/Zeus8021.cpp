@@ -12,7 +12,6 @@ Zeus8021::Zeus8021(const Zeus8021& other, int new_id)
 {
 };
 
-
 Zeus8021::~Zeus8021()
 {
     std::cout << "Zeus 8021 Meter Destructor is begin called" << std::endl;

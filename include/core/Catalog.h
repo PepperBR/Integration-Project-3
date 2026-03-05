@@ -15,20 +15,18 @@ using MetersList = std::list<std::unique_ptr<Meter>>;
 class Catalog          
 {
 private:
-    Line meters;
     MetersList meter_list;
     std::unique_ptr<Meter> Catalog::factoryMeter(const std::string& name); // testado
+    void sortList(); // testado                        
     
 public:
     void addNewModel (const std::string & name); // testado
     void removeModel (const int ID); // testado
-    std::vector<double> & getMeasurementsPhases(const int ID); // realizar medições [AJUSTAR] 
+    std::vector<double> & getMeasurementsPhases(const int ID); // TODO: go back later
     
-    void sortList(); // testado                        
     LineList getLines () const; // testado
     std::vector<std::pair<int, std::string>> getLineModels(const std::string & line_name);// testado    
-
-
+    
     Catalog();
 };
 

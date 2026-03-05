@@ -71,14 +71,14 @@ void Catalog::removeModel (const int ID)
 
 std::vector<double> & Catalog::getMeasurementsPhases(const int ID)
 {
-    for (auto & cont  : meters)
+/*     for (auto & cont  : meters)
     {
         if(cont->getID() == ID)
         {
             return cont->getPhaseValues();
         } 
     }
-
+ */
     throw std::runtime_error("Meter not found");
 };
 
@@ -104,8 +104,8 @@ std::unique_ptr<Meter> Catalog::factoryMeter(const std::string& name)
 
 LineList Catalog::getLines() const
 {
-    
     std::set<std::string> lines;
+    
     for (const auto & meter  : meter_list)
     {
         lines.insert(meter->getNameLine());
@@ -114,9 +114,11 @@ LineList Catalog::getLines() const
     return lines;
 }
 
-std::vector<std::pair<int, std::string>> Catalog::getLineModels(const std::string & name_line) {
 
+std::vector<std::pair<int, std::string>> Catalog::getLineModels(const std::string & name_line) 
+{
     std::vector<std::pair<int, std::string>> list;
+
     for (auto & model : meter_list) {
         if (model->getFullName().find(name_line) != std::string::npos) {
             list.push_back({model->getID(),model->getFullName()});
@@ -124,4 +126,4 @@ std::vector<std::pair<int, std::string>> Catalog::getLineModels(const std::strin
     }
     
     return list; 
-};
+}

@@ -1,7 +1,7 @@
 #include "meters/Meter.h"
 #include <iostream>
 
-Meter::Meter(int id, std::string line, std::string model, bool is_template = true)
+Meter::Meter(int id, std::string line, std::string model, bool is_template)
     : ID(id), name_line(std::move(line)), 
       name_model(std::move(model)),  
       is_template(is_template) 
