@@ -55,9 +55,9 @@ Catalog::Catalog()
     meter_list.emplace_back(std::make_unique<Ares8023_200>());
 };
 
-void Catalog::addNewModel (const std::string & full_name)
+void Catalog::addNewModel (const int & ID_template)
 {   
-    auto model = factoryMeter(full_name);
+    auto model = factoryMeter(ID_template);
     meter_list.push_back(std::move(model));
     sortList();
 };
@@ -92,10 +92,10 @@ void Catalog::sortList()
         });
 };
 
-std::unique_ptr<Meter> Catalog::factoryMeter(const std::string& name)
+std::unique_ptr<Meter> Catalog::factoryMeter(const int & ID_template)
 {
     for (const auto& meter_template : meter_list) {
-        if (meter_template->getFullName() == name ) {
+        if (meter_template->getID() == ID_template && meter_template->getIsTemplate()) {
             return meter_template->cloneMeter();
         }
     }
@@ -115,13 +115,13 @@ LineList Catalog::getLines() const
 }
 
 
-std::vector<std::pair<int, std::string>> Catalog::getLineModels(const std::string & name_line) 
+std::vector<std::tuple<int, std::string, bool>> Catalog::getLineModels(const std::string & name_line) 
 {
-    std::vector<std::pair<int, std::string>> list;
+    std::vector<std::tuple<int, std::string, bool>> list;
 
     for (auto & model : meter_list) {
         if (model->getFullName().find(name_line) != std::string::npos) {
-            list.push_back({model->getID(),model->getFullName()});
+            list.push_back({model->getID(), model->getFullName(), model->getIsTemplate()});
         }
     }
     

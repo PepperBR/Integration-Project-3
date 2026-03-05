@@ -2,6 +2,7 @@
 #include "catch.hpp"
 #include <string>
 #include <list>
+#include <tuple>
 
 namespace jmcp
 {
@@ -41,25 +42,25 @@ TEST_CASE("Testing Methods")
 
         for (const auto &model : models_apolo)
         {
-            REQUIRE(model.second == expected_models_Apolo[index++]);
+            REQUIRE(std::get<1>(model) == expected_models_Apolo[index++]);
         }
 
         index = 0;
         for (const auto &model : models_zeus)
         {
-            REQUIRE(model.second == expected_models_Zeus[index++]);
+            REQUIRE(std::get<1>(model) == expected_models_Zeus[index++]);
         }
 
         index = 0;
         for (const auto &model : models_cronos)
         {
-            REQUIRE(model.second == expected_models_Cronos[index++]);
+            REQUIRE(std::get<1>(model) == expected_models_Cronos[index++]);
         }
 
         index = 0;
         for (const auto &model : models_ares)
         {
-            REQUIRE(model.second == expected_models_Ares[index++]);
+            REQUIRE(std::get<1>(model) == expected_models_Ares[index++]);
         }
     };
 
@@ -86,7 +87,7 @@ TEST_CASE("Testing if new model is being added to meter_list")
     {
         Catalog catalog;
         REQUIRE(catalog.getLineModels("Apolo").size() == 1);
-        catalog.addNewModel("Apolo 6031");
+        catalog.addNewModel(1);
         REQUIRE(catalog.getLineModels("Apolo").size() == 2);
     }
 }
@@ -96,7 +97,7 @@ TEST_CASE("Testing if is possible to remove a new model")
     SECTION("Remove new Model")
     {
         Catalog catalog;
-        catalog.addNewModel("Apolo 6031"); // ID = 18
+        catalog.addNewModel(1); // ID = 18
         REQUIRE(catalog.getLineModels("Apolo").size() == 2);
         
         catalog.removeModel(18);
@@ -118,17 +119,19 @@ TEST_CASE("Test if sortList() is working")
     {
         Catalog catalog;
 
-        catalog.addNewModel("Apolo 6031");
-        catalog.addNewModel("Zeus 8031"); 
-        catalog.addNewModel("Cronos 7023 L"); 
-        catalog.addNewModel("Ares 8023"); 
-        catalog.addNewModel("Ares 7021");
+        catalog.addNewModel(4);     // Zeus 8031
+        catalog.addNewModel(16);    // Ares 8023 15
+        catalog.addNewModel(8);     // Cronos 6021 A
+        catalog.addNewModel(1);     // Apolo 6031
+        catalog.addNewModel(12);    // Ares 7021
+        
+        
 
         std::string expected_name_models[] = {
-            "Apolo 6031","Apolo 6031", "Zeus 8021","Zeus 8023","Zeus 8031","Zeus 8031","Cronos 6001 A",
-            "Cronos 6003","Cronos 6021 A","Cronos 6021 L","Cronos 7023","Cronos 7023 2.5","Cronos 7023 L",
-            "Cronos 7023 L","Ares 7021","Ares 7021","Ares 7023","Ares 7031","Ares 8023","Ares 8023",
-            "Ares 8023 15","Ares 8023 200"
+            "Apolo 6031", "Apolo 6031", "Zeus 8021","Zeus 8023","Zeus 8031","Zeus 8031","Cronos 6001 A",
+            "Cronos 6003","Cronos 6021 A","Cronos 6021 L","Cronos 6021 L","Cronos 7023","Cronos 7023 2.5",
+            "Cronos 7023 L","Ares 7021","Ares 7021","Ares 7023","Ares 7031","Ares 8023",
+            "Ares 8023 15","Ares 8023 15","Ares 8023 200"
         };
 
         std::string lines_models[] = {"Apolo","Zeus","Cronos","Ares"};
@@ -138,7 +141,7 @@ TEST_CASE("Test if sortList() is working")
         {
             for (const auto & meter : catalog.getLineModels(lines_models[index]))
             {
-                REQUIRE(meter.second == expected_name_models[index_name_models]);
+                CHECK(std::get<1>(meter) == expected_name_models[index_name_models]);
                 index_name_models ++;
             }
         }

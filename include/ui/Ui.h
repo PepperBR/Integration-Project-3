@@ -27,13 +27,15 @@ class Ui
         void exibirMenuInicial();
         void exibirMenuLinhas();
         void limparInput();
-        void listarModelosComId(); //
+        void listarModelosComId(bool is_template); //
         void exibirLinhasDisponiveis();
         void listarModelosPorLinha(); // 
         void listarTodosModelos(); //
         void menuAdicionarModelo();
         void menuRemoverModelo();
         void menuLeituraFases();
+        void listarTodosModelosAdicionados();
         void exibirModelosLinha (std::string & linha);
         int collectUserOpInput();
+        void finalizarPrograma();
 };

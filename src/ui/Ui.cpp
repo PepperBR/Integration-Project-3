@@ -2,17 +2,21 @@
 #include <string>
 #include <iostream>
 #include <limits>
+#include <tuple>
+
+static bool execute = true;
 
 Ui::Ui()
     : menu_options({
     MenuOptions
     {1, "Filtrar modelos por linha", [this] () {listarModelosPorLinha(); }},
     {2, "Ver todas as linhas", [this] () {exibirLinhasDisponiveis(); }},
-    {3, "Ver catálogo completo", [this] () {listarTodosModelos(); }},
-    {4, "Adicionar novo modelo", [this] () {menuAdicionarModelo(); }},
-    {5, "Remover modelo", [this] () {menuRemoverModelo(); }},
-    {6, "Ler medição de fase", [this] () {menuLeituraFases(); }},
-    {7, "Sair", []() {}}
+    {3, "Ver catálogo de opções", [this] () {listarTodosModelos(); }},
+    {4, "Ver catálogo de modelos adicionados", [this] () {listarTodosModelosAdicionados(); }},
+    {5, "Adicionar novo modelo", [this] () {menuAdicionarModelo(); }},
+    {6, "Remover modelo", [this] () {menuRemoverModelo(); }},
+    {7, "Ler medição de fase", [this] () {menuLeituraFases(); }},
+    {8, "Sair", [this] () {finalizarPrograma(); }}
 }){}
 
 void Ui::limparInput() {
@@ -21,54 +25,19 @@ void Ui::limparInput() {
     std::cin.ignore();
 }
 
+
 void Ui::run() {
-    int op;
-    while (true) {
+    while (execute) {
 
         exibirMenuInicial();
-        
-        auto op = collectUserOpInput();
+        auto option = collectUserOpInput();
 
-        if (op == -1)
+        for (const auto &seletected_menu : menu_options)
         {
-            std::cout << "Opção inválida!\n";
-            
-            limparInput();
-            
-            continue;
-        }
-
-        if (op == 7)
-        {
-          break;  
-        } 
-
-        switch (op) 
-        {
-            case 1: 
-                listarModelosPorLinha();   
-                break;
-            case 2: 
-                exibirLinhasDisponiveis(); 
-                break;
-            case 3: 
-                listarTodosModelos();      
-                break;
-            case 4: 
-                menuAdicionarModelo();     
-                break;
-            case 5: 
-                menuRemoverModelo();       
-                break;
-            case 6: 
-                menuLeituraFases();        
-                break;
-            default: 
-                std::cout << "Opção inexistente.\n";
-                std::cout << "Aperte Enter para continuar.\n";
-                std::cin.ignore();
-                
-                break;
+            if(option == seletected_menu.op)
+            {
+                seletected_menu.menu_exec();
+            }
         }
     }
 }
@@ -82,22 +51,27 @@ void Ui::exibirLinhasDisponiveis() {
     }
 }
 
-void Ui::listarModelosComId() {
+void Ui::listarModelosComId(bool is_template) {
     std::cout << "\nID   |   Nome do modelo\n";
     std::cout << "--------------------------\n";
     for (const auto & line : catalog.getLines())
     {
         for (const auto & meter : catalog.getLineModels(line))
         {
-            std::cout << meter.first << "          " << meter.second << "\n";
+            if(is_template == std::get<2>(meter))
+            {
+                std::cout << std::get<0>(meter) << "          " << std::get<1>(meter) << "\n";
+            }
         }
     }
 }
 
 void Ui::listarModelosPorLinha() {
     exibirMenuLinhas();
+
     std::string nomeLinha;
-    std::cin >> nomeLinha;
+    limparInput();
+    std::getline(std::cin, nomeLinha);
 
     std::cout << "\n=== Modelos da Linha " << nomeLinha << " ===\n";
     auto modelos_linha = catalog.getLineModels(nomeLinha);
@@ -106,7 +80,7 @@ void Ui::listarModelosPorLinha() {
     }else{
         for(auto & modelo : modelos_linha)
         {
-            std::cout << modelo.second << std::endl;
+            std::cout << std::get<1>(modelo) << std::endl;
         }
     }
 
@@ -122,7 +96,10 @@ void Ui::listarTodosModelos() {
         auto modelos_linha = catalog.getLineModels(linha);
         for(auto & modelo : modelos_linha)
         {
-            std::cout << modelo.first << " | " << modelo.second << "\n";
+            if(std::get<2>(modelo))
+            {
+                std::cout << std::get<0>(modelo) << " | " << std::get<1>(modelo) << "\n";
+            }
         }
     }
 
@@ -131,12 +108,33 @@ void Ui::listarTodosModelos() {
     std::cin.ignore();
 }
 
+void Ui::listarTodosModelosAdicionados() {
+    for (const auto & linha : catalog.getLines())
+    {
+        std::cout << "\n=== Linha: " << linha << " ===\n";
+        auto modelos_linha = catalog.getLineModels(linha);
+        for(auto & modelo : modelos_linha)
+        {
+            if(!std::get<2>(modelo))
+            {
+                std::cout << std::get<0>(modelo) << " | " << std::get<1>(modelo) << "\n";
+            }
+        }
+    }
+
+    limparInput();
+    std::cout << "Aperte Enter para continuar.\n";
+    std::cin.ignore();
+}
+
+
+
 void Ui::menuAdicionarModelo() {
     exibirLinhasDisponiveis();
     std::string line, name;
 
     std::cout << "\nEscolha a linha: ";
-    std::cin >> line;
+    std::getline(std::cin, line);
 
     bool existe = false;
     for (const auto & linha : catalog.getLines())
@@ -145,26 +143,25 @@ void Ui::menuAdicionarModelo() {
             existe = true;
         }   
     }
-
     if (!existe) {
         limparInput();
         std::cout << "Erro: Linha inválida.\n";
         std::cout << "Aperte Enter para continuar.\n";
         std::cin.ignore();
-
         return;
     }
+
     exibirModelosLinha(line);
 
-    std::cout << "\nDigite o nome do novo modelo que deseja criar: ";
+    std::cout << "\nDigite o ID do template que deseja criar um novo modelo : ";
     limparInput();
-    std::getline(std::cin, name);
-    const auto models = catalog.getLineModels(line); // fullName
+    auto option_ID = collectUserOpInput();
+    const auto models = catalog.getLineModels(line);
 
     existe = false;
     for (const auto & modelo :  models)
     {
-        if(name == modelo.second)
+        if(option_ID == std::get<0>(modelo))
         {
             existe = true;
             break;
@@ -173,10 +170,10 @@ void Ui::menuAdicionarModelo() {
 
     if(existe)
     {
-        catalog.addNewModel(line + " " + name);
+        catalog.addNewModel(option_ID);
         std::cout << "Modelo adicionado com sucesso!\n";
     }else{
-        std::cout << "Escreva um Modelo que pertence a linha.\n";
+        std::cout << "Escolha um Modelo que pertence a linha.\n";
     }
     limparInput();
     std::cout << "Aperte Enter para continuar.\n";
@@ -184,7 +181,7 @@ void Ui::menuAdicionarModelo() {
 }
 
 void Ui::menuRemoverModelo() {
-    listarModelosComId();
+    listarModelosComId(false);
     int id;
     std::cout << "\nID para remover: ";
     if (std::cin >> id) {
@@ -199,7 +196,7 @@ void Ui::menuRemoverModelo() {
 }
 
 void Ui::menuLeituraFases() {
-    listarModelosComId();
+    listarModelosComId(true);
     int id;
     
     std::cout << "ID do medidor que deseja realizar as leituras: ";
@@ -223,8 +220,6 @@ void Ui::menuLeituraFases() {
     std::cin.ignore();
 }
 
-// --- Menus de Texto ---
-
 void Ui::exibirMenuTitle() 
 {
     std::cout << "\n==============================";
@@ -235,20 +230,20 @@ void Ui::exibirMenuTitle()
 void Ui::exibirMenuInicial() 
 {   
     exibirMenuTitle();
-    
     for (const auto &menu_item : menu_options)
     {
         std::cout << menu_item.op << "\t" << menu_item.description << "\n";
     }
+    std::cout << "Escolha uma opção: " << std::endl;
 }
 
 void Ui::exibirMenuLinhas() {
     std::cout << "\n--- Digite o nome de uma das linhas abaixo ---\n";
     for (const auto & linha : catalog.getLines()) 
     {
-        std::cout << "  [" << linha << "]";
+        std::cout << " [" << linha << "] ";
     }
-    std::cout << "\nLinha: ";
+    std::cout << "Linha: ";
 }
 
 void Ui::exibirModelosLinha (std::string & linha) {
@@ -256,18 +251,22 @@ void Ui::exibirModelosLinha (std::string & linha) {
     auto const modelos = catalog.getLineModels(linha);
     for (const auto & modelo :  modelos)
     {
-        std::cout << "(" << modelo.first << ") - " << modelo.second << "\n";
+        std::cout << "(" << std::get<0>(modelo) << ") - " << std::get<1>(modelo) << "\n";
     }
 }
 
 int Ui::collectUserOpInput()
 {
-    int op;
+    int option;
 
-    if (!(std::cin >> op)) 
+    if (!(std::cin >> option)) 
     {
         return -1;
     }
 
-    return op;
+    return option;
+}
+
+void Ui::finalizarPrograma() {
+    execute = false;
 }

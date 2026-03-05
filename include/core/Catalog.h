@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <set>
 #include <algorithm>
+#include <tuple>
 
 using LineList = std::set<std::string>;
 using Line = std::list<std::unique_ptr<Meter>>;
@@ -16,16 +17,16 @@ class Catalog
 {
 private:
     MetersList meter_list;
-    std::unique_ptr<Meter> Catalog::factoryMeter(const std::string& name); // testado
+    std::unique_ptr<Meter> Catalog::factoryMeter(const int & ID_template); // testado
     void sortList(); // testado                        
     
 public:
-    void addNewModel (const std::string & name); // testado
+    void addNewModel (const int & ID_template); // testado
     void removeModel (const int ID); // testado
     std::vector<double> & getMeasurementsPhases(const int ID); // TODO: go back later
     
     LineList getLines () const; // testado
-    std::vector<std::pair<int, std::string>> getLineModels(const std::string & line_name);// testado    
+    std::vector<std::tuple<int, std::string, bool>> getLineModels(const std::string & line_name);// testado    
     
     Catalog();
 };
