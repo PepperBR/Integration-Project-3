@@ -162,10 +162,10 @@ TEST_CASE("Testing if getMeasurementsPhases() is working")
         auto measurements = catalog.getMeasurementsPhases(18);
         REQUIRE(measurements.size() == 3);
 
-        auto measurements = catalog.getMeasurementsPhases(19);
+        measurements = catalog.getMeasurementsPhases(19);
         REQUIRE(measurements.size() == 1);
 
-        auto measurements = catalog.getMeasurementsPhases(20);
+        measurements = catalog.getMeasurementsPhases(20);
         REQUIRE(measurements.size() == 2);
         
     }
