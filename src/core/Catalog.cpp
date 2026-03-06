@@ -134,3 +134,28 @@ std::vector<std::tuple<int, std::string, bool>> Catalog::getLineModels(const std
     
     return list; 
 }
+
+const std::unique_ptr<Meter> & Catalog::getMeterByID(const int id) const
+{
+    for (const auto & meter : meter_list)
+    {
+        if(meter->getID() == id && !meter->getIsTemplate())
+        {
+            return meter;
+        }
+    }
+    return nullptr;
+}
+
+const std::unique_ptr<Meter> & Catalog::getTemplateByID(const int id) const
+{
+    for (const auto & meter : meter_list)
+    {
+        if(meter->getID() == id && meter->getIsTemplate())
+        {
+            return meter;
+        }
+    }
+    return nullptr;
+}
+

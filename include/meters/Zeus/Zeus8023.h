@@ -11,6 +11,5 @@ public:
     std::vector<double> & getPhaseValues() override;
     
     std::unique_ptr<Meter> cloneMeter() const override;
-
 };
 

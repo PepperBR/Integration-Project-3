@@ -1,6 +1,6 @@
 #include "meters/Ares/Ares7023.h"
 #include "core/GlobalID.h"
-#include <iostream>
+
 
 Ares7023::Ares7023()
     : Ares(GlobalID::generateID(), "7023")
@@ -15,7 +15,6 @@ Ares7023::Ares7023(const Ares7023& other, int new_id)
 
 Ares7023::~Ares7023()
 {
-    std::cout << "Ares 7023 Meter Destructor is begin called" << std::endl;
 };
 
 std::vector<double> & Ares7023::getPhaseValues()

@@ -1,6 +1,6 @@
 #include "meters/Zeus/Zeus8023.h"
 #include "core/GlobalID.h"
-#include <iostream>
+
 
 Zeus8023::Zeus8023()
     : Zeus(GlobalID::generateID(), "8023")
@@ -14,7 +14,6 @@ Zeus8023::Zeus8023(const Zeus8023& other, int new_id)
 
 Zeus8023::~Zeus8023()
 {
-    std::cout << "Zeus 8023 Meter Destructor is begin called" << std::endl;
 };
 
 std::vector<double> & Zeus8023::getPhaseValues()

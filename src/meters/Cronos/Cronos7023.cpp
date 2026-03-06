@@ -1,6 +1,6 @@
 #include "meters/Cronos/Cronos7023.h"
 #include "core/GlobalID.h"
-#include <iostream>
+
 
 Cronos7023::Cronos7023()
     : Cronos(GlobalID::generateID(), "7023")
@@ -14,7 +14,6 @@ Cronos7023::Cronos7023(const Cronos7023& other, int new_id)
 
 Cronos7023::~Cronos7023()
 {
-    std::cout << "Cronos 7023 Meter Destructor is begin called" << std::endl;
 };
 
 std::vector<double> & Cronos7023::getPhaseValues()

@@ -4,9 +4,7 @@
 #include <memory>
 #include <string>
 #include <meters/Meter.h>
-#include <unordered_map>
 #include <set>
-#include <algorithm>
 #include <tuple>
 
 using LineList = std::set<std::string>;
@@ -16,17 +14,18 @@ class Catalog
 {
 private:
     MetersList meter_list;
-    std::unique_ptr<Meter> Catalog::factoryMeter(const int & ID_template); // testado
-    void sortList(); // testado                        
+    std::unique_ptr<Meter> Catalog::factoryMeter(const int & ID_template); 
+    void sortList();                         
     
 public:
-    void addNewModel (const int & ID_template); // testado
-    bool removeModel (const int ID); // testado
-    std::vector<double> & getMeasurementsPhases(const int ID); // TODO: testar
+    void addNewModel (const int & ID_template); 
+    bool removeModel (const int ID); 
+    std::vector<double> & getMeasurementsPhases(const int ID); 
     
-    LineList getLines () const; // testado
-    std::vector<std::tuple<int, std::string, bool>> getLineModels(const std::string & line_name);// testado    
-    
+    LineList getLines () const; 
+    std::vector<std::tuple<int, std::string, bool>> getLineModels(const std::string & line_name);    
+    const std::unique_ptr<Meter> & getMeterByID(const int id) const;
+    const std::unique_ptr<Meter> & getTemplateByID(const int id) const;
     Catalog();
 };
 

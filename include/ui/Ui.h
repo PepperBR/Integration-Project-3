@@ -3,7 +3,6 @@
 #include <iostream>
 #include <functional>
 #include <string>
-#include <vector>
 #include "core/Catalog.h"
 
 struct MenuOptions 
@@ -15,27 +14,31 @@ struct MenuOptions
 
 class Ui 
 {
-    public:
-        void run();
-        Ui();
-    private:
-        Catalog catalog;
+private:
+    Catalog catalog;
+    const std::vector<MenuOptions> menu_options;
+    
+    void finalizarPrograma();
 
-        const std::vector<MenuOptions> menu_options;
-        
-        void exibirMenuTitle();
-        void exibirMenuInicial();
-        void exibirMenuLinhas();
-        void limparInput();
-        void listarModelosComId(bool is_template); //
-        void exibirLinhasDisponiveis();
-        void listarModelosPorLinha(); // 
-        void listarTodosModelos(); //
-        void menuAdicionarModelo();
-        void menuRemoverModelo();
-        void menuLeituraFases();
-        void listarTodosModelosAdicionados();
-        void exibirModelosLinha (std::string & linha);
-        int collectUserOpInput();
-        void finalizarPrograma();
+    void listarModelosPorLinha(); 
+    void exibirLinhasDisponiveisMenu();
+    void listarTodosModelosGenerico(bool is_template);
+    void menuAdicionarModelo();
+    void menuRemoverModelo();
+    
+    void menuLeituraFases();
+    void exibirMenuInicial();
+    void exibirMenuTitle();
+    void exibirMenuLinhas();
+    void exibirLinhasDisponiveis();
+    void exibirModelosLinha (std::string & linha);
+    void listarModelosComId(bool is_template);
+    
+    int collectUserOpInput();
+    void limparInput();
+    void pausar();
+
+public:
+    Ui();
+    void run();
 };

@@ -1,5 +1,4 @@
 #include "meters/Zeus/Zeus.h"
-#include <iostream>
 
 Zeus::Zeus(int id, std::string model)
     : Meter(id, "Zeus" , model)
@@ -14,5 +13,4 @@ Zeus::Zeus(const Zeus& other, int new_id)
 
 Zeus::~Zeus()
 {
-    std::cout << "Zeus Meter Destructor is begin called" << std::endl;
 };

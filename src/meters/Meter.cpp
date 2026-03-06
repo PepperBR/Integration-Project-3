@@ -1,5 +1,4 @@
 #include "meters/Meter.h"
-#include <iostream>
 
 Meter::Meter(int id, std::string line, std::string model, bool is_template)
     : ID(id), name_line(std::move(line)), 
@@ -14,7 +13,6 @@ Meter::Meter(const Meter &other, int new_id)
       name_line(other.name_line),   
       name_model(other.name_model)  
 {
-    std::cout << "Meter Copy constructor" << std::endl;
 }
 
 std::string Meter::getFullName() const
@@ -44,5 +42,4 @@ std::string Meter::getNameModel () const
 
 Meter::~Meter()  
 {
-    std::cout << "Virtual Meter Destructor is begin called" << std::endl;
 }
