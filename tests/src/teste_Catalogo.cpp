@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include <tuple>
+#include <vector>
 
 namespace jmcp
 {
@@ -145,6 +146,28 @@ TEST_CASE("Test if sortList() is working")
                 index_name_models ++;
             }
         }
+    }
+}
+
+TEST_CASE("Testing if getMeasurementsPhases() is working")
+{
+    SECTION("Get Measurements Phases")
+    {
+        Catalog catalog;
+
+        catalog.addNewModel(4);     
+        catalog.addNewModel(2);
+        catalog.addNewModel(3);
+        
+        auto measurements = catalog.getMeasurementsPhases(18);
+        REQUIRE(measurements.size() == 3);
+
+        auto measurements = catalog.getMeasurementsPhases(19);
+        REQUIRE(measurements.size() == 1);
+
+        auto measurements = catalog.getMeasurementsPhases(20);
+        REQUIRE(measurements.size() == 2);
+        
     }
 }
 }

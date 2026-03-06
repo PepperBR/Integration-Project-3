@@ -62,23 +62,30 @@ void Catalog::addNewModel (const int & ID_template)
     sortList();
 };
 
-void Catalog::removeModel (const int ID)
+bool Catalog::removeModel (const int ID)
 {
-    meter_list.remove_if([ID](std::unique_ptr<Meter> & meter_list) {
-        return  meter_list->getID() == ID && !meter_list->getIsTemplate() ;
+    bool result = false;
+    meter_list.remove_if([ID, &result](std::unique_ptr<Meter> & meter_list) {
+        if(meter_list->getID() == ID && !meter_list->getIsTemplate())
+        {
+            result = true;
+            return  true;
+        };
+        return false;
     });
+    return result;
 }; 
 
 std::vector<double> & Catalog::getMeasurementsPhases(const int ID)
 {
-/*     for (auto & cont  : meters)
+    for (auto & meter  : meter_list)
     {
-        if(cont->getID() == ID)
+        if(meter->getID() == ID && !meter->getIsTemplate())
         {
-            return cont->getPhaseValues();
+            return meter->getPhaseValues();
         } 
     }
- */
+
     throw std::runtime_error("Meter not found");
 };
 

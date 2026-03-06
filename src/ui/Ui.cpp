@@ -209,7 +209,14 @@ void Ui::menuRemoverModelo() {
     std::cout << "\nID para remover: ";
     auto id = collectUserOpInput();
     if (id != -1) {
-        catalog.removeModel(id);
+        auto result = catalog.removeModel(id);
+        if(result)
+        {
+            std::cout << "Modelo removido com sucesso!\n";
+        }
+        else{
+            std::cout << "[ERRO] Entrada inválida. Escolha uma opção válida.\n";
+        }
     } else {
         std::cout << "\n[ERRO] Entrada inválida. Use apenas numeros para o ID.\n";
     }
@@ -220,23 +227,43 @@ void Ui::menuRemoverModelo() {
 }
 
 void Ui::menuLeituraFases() {
-    listarModelosComId(true);
-    int id;
-    
+    listarModelosComId(false);
+
     std::cout << "ID do medidor que deseja realizar as leituras: ";
-    if (!(std::cin >> id))
+    auto option_ID = collectUserOpInput();
+
+    if (option_ID == -1)
     { 
-        std::cout << "Digite uma opção vália.\n";
+        std::cout << "[Erro] Entrada inválida. Escolha um ID válido.\n";
+        limparInput();
+        return; 
+    }
+
+    bool is_template = true;
+    for (const auto & line : catalog.getLines())
+    {
+        for (const auto & meter : catalog.getLineModels(line))
+        {
+            if(std::get<0>(meter) == option_ID && !std::get<2>(meter))
+            {
+                is_template = false;
+            }
+        }
+    }
+    
+    if(is_template)
+    {
+        std::cout << "[Erro] Entrada inválida. Escolha uma opção de ID válida.";
         limparInput();
         std::cout << "\nAperte Enter para continuar.\n";
         std::cin.ignore();
         return; 
     }
-    
-    auto measurements = catalog.getMeasurementsPhases(id);
+
+    auto measurements = catalog.getMeasurementsPhases(option_ID);
     for(int cont = 0; cont < measurements.size(); cont++)
     {
-        std::cout << "A leitura da " << cont + 1 << "° fase é : " << measurements[cont ] << "\n";
+        std::cout << "A leitura da " << cont + 1 << "° fase é : " << measurements[cont] << "\n";
     }
     
     limparInput();

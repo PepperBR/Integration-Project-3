@@ -10,7 +10,6 @@
 #include <tuple>
 
 using LineList = std::set<std::string>;
-using Line = std::list<std::unique_ptr<Meter>>;
 using MetersList = std::list<std::unique_ptr<Meter>>;
 
 class Catalog          
@@ -22,8 +21,8 @@ private:
     
 public:
     void addNewModel (const int & ID_template); // testado
-    void removeModel (const int ID); // testado
-    std::vector<double> & getMeasurementsPhases(const int ID); // TODO: go back later
+    bool removeModel (const int ID); // testado
+    std::vector<double> & getMeasurementsPhases(const int ID); // TODO: testar
     
     LineList getLines () const; // testado
     std::vector<std::tuple<int, std::string, bool>> getLineModels(const std::string & line_name);// testado    
