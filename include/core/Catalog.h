@@ -9,6 +9,7 @@
 
 using LineList = std::set<std::string>;
 using MetersList = std::list<std::unique_ptr<Meter>>;
+using MeterAttributes = std::vector<std::tuple<int, std::string, bool>>;
 
 class Catalog          
 {
@@ -23,7 +24,7 @@ public:
     std::vector<double> & getMeasurementsPhases(const int ID); 
     
     LineList getLines () const; 
-    std::vector<std::tuple<int, std::string, bool>> getLineModels(const std::string & line_name);    
+    MeterAttributes getLineModels(const std::string & line_name);    
     const std::unique_ptr<Meter> & getMeterByID(const int id) const;
     const std::unique_ptr<Meter> & getTemplateByID(const int id) const;
     Catalog();

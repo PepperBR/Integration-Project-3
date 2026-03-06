@@ -17,20 +17,6 @@
 #include "meters/Zeus/Zeus8023.h"
 #include "meters/Zeus/Zeus8031.h"
 
-/*
-    - Planejamento:
-    -> Modificar Meter
-        -> Ajustar para aceitar template (True/False) [X] 
-        -> Adicionar name_Line , name_Model/ getFullName(), getNameLine() e getNameModel() [X]
-        -> Modificar para ser possível fazer uma cópia extra de um objeto do Meter, modificando ID e colocando 
-        template como False [X]
-        -> Fazer a leitura de Fases Funcionar [] depois
-    -> Modificar Catalog
-        -> Ajustar para quando cirar uma deep copy, ser ajustado a variável is_template (True   ) []
-        -> Com a mudança em como vai ficar Meter, vai ser necessário alterar todos os métodos para essa mudança de comportamento []
-    -> Modificar Ui
-        -> Com a mudança em como vai ficar Catalog,  vai ser necessário alterar todos os métodos para essa mudança de comportamento []
-*/
 Catalog::Catalog()
 {
     meter_list.emplace_back(std::make_unique<Apolo6031>());
@@ -122,9 +108,9 @@ LineList Catalog::getLines() const
 }
 
 
-std::vector<std::tuple<int, std::string, bool>> Catalog::getLineModels(const std::string & name_line) 
+MeterAttributes Catalog::getLineModels(const std::string & name_line) 
 {
-    std::vector<std::tuple<int, std::string, bool>> list;
+    MeterAttributes list;
 
     for (auto & model : meter_list) {
         if (model->getFullName().find(name_line) != std::string::npos) {
